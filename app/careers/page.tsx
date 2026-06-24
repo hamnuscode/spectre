@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { services } from '@/data/services';
-import { PageHero } from '@/components/sections/PageHero';
 import { CareersForm } from '@/components/forms/CareersForm';
 import { Reveal } from '@/components/ui/Reveal';
+import { Stage3D } from '@/components/three/Stage3D';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -13,16 +13,24 @@ export const metadata: Metadata = {
 export default function CareersPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Careers"
-        title={
-          <>
-            Join the cream of{' '}
-            <span className="text-gradient">the crop.</span>
-          </>
-        }
-        intro="We're always looking for diverse, expert minds. Send your details and CV below — we read every application."
-      />
+      <header className="relative overflow-hidden pt-[calc(var(--nav-h)+3rem)]">
+        <div className="container-x grid items-center gap-10 pb-12 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="eyebrow mb-5">Careers</p>
+            <h1 className="text-[clamp(2.4rem,5.6vw,4rem)]">
+              Join the cream of{' '}
+              <span className="text-gradient">the crop.</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-[1.08rem] leading-relaxed text-[var(--muted)]">
+              We&apos;re always looking for diverse, expert minds. Send your
+              details and CV below — we read every application.
+            </p>
+          </div>
+          <div className="flex justify-center lg:justify-end">
+            <Stage3D variant="ico" />
+          </div>
+        </div>
+      </header>
 
       <section className="pb-20 lg:pb-24">
         <div className="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">

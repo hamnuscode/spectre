@@ -18,14 +18,14 @@ const item = {
 export function Hero() {
   const track = [...clients, ...clients];
   return (
-    <section className="relative overflow-hidden bg-[var(--navy-deep)] text-white">
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-[var(--navy-deep)] text-white">
       {/* Kept wave-lines animation as the hero background */}
       <div aria-hidden className="absolute inset-0">
         <GlowyWavesHero className="!min-h-0 h-full !rounded-none" />
       </div>
       <div aria-hidden className="absolute inset-0 bg-[var(--navy-deep)]/40" />
 
-      <div className="container-x relative z-10 grid items-start gap-10 pb-16 pt-[calc(var(--nav-h)+3rem)] lg:grid-cols-12 lg:gap-8 lg:pb-24">
+      <div className="container-x relative z-10 grid w-full items-center gap-10 pb-12 pt-[calc(var(--nav-h)+2rem)] lg:grid-cols-12 lg:gap-8">
         {/* LEFT — content */}
         <motion.div variants={container} initial="hidden" animate="show" className="lg:col-span-7">
           <motion.p variants={item} className="mb-5 text-xs font-semibold uppercase tracking-[0.26em] text-[var(--green)]">
@@ -33,9 +33,7 @@ export function Hero() {
           </motion.p>
           <motion.h1 variants={item} className="text-white text-[clamp(2.6rem,6.5vw,4.8rem)] leading-[1.02]">
             We help brands{' '}
-            <span className="bg-gradient-to-r from-[var(--cyan)] to-[var(--green)] bg-clip-text text-transparent">
-              stand out
-            </span>{' '}
+            <span className="text-[var(--green)]">stand out</span>{' '}
             in the digital age.
           </motion.h1>
           <motion.p variants={item} className="mt-6 max-w-xl text-[1.1rem] leading-relaxed text-white/65">
@@ -79,7 +77,7 @@ export function Hero() {
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-[var(--cyan)] to-[var(--green)]"
+                  className="h-full rounded-full bg-[var(--green)]"
                   initial={{ width: 0 }}
                   animate={{ width: '98%' }}
                   transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}

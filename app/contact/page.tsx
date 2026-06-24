@@ -57,6 +57,8 @@ export default async function ContactPage({
       <div className="container-x">
         <div className="relative h-[300px] w-full overflow-hidden rounded-3xl bg-[var(--navy-deep)] sm:h-[360px]">
           <InteractiveRobotSpline scene={ROBOT_SCENE_URL} className="absolute inset-0 h-full w-full" />
+          {/* Cover the "Built with Spline" badge (bottom-right) */}
+          <div aria-hidden className="absolute bottom-0 right-0 h-12 w-40 bg-[var(--navy-deep)]" />
         </div>
       </div>
 

@@ -9,12 +9,14 @@ export function Footer() {
       {/* Wavy top edge — a tiling white wave that gently flows sideways */}
       <div aria-hidden className="relative -mb-px">
         <svg
-          viewBox="0 0 2880 90"
+          viewBox="0 0 1440 80"
           preserveAspectRatio="none"
-          className="block h-[6vw] min-h-[44px] w-full"
+          className="block h-[5vw] min-h-[40px] w-full"
         >
+          {/* Path is 2 tiles wide (0–2880); the visible window is 1 tile
+              (0–1440), so translating by one tile loops seamlessly. */}
           <path
-            d="M 0 45 C 240 20 480 70 720 45 C 960 20 1200 70 1440 45 C 1680 20 1920 70 2160 45 C 2400 20 2640 70 2880 45 L 2880 0 L 0 0 Z"
+            d="M 0 40 C 240 18 480 62 720 40 C 960 18 1200 62 1440 40 C 1680 18 1920 62 2160 40 C 2400 18 2640 62 2880 40 L 2880 0 L 0 0 Z"
             fill="var(--bg)"
           >
             <animateTransform
@@ -22,7 +24,7 @@ export function Footer() {
               type="translate"
               from="0 0"
               to="-1440 0"
-              dur="16s"
+              dur="18s"
               repeatCount="indefinite"
             />
           </path>

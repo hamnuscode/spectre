@@ -25,12 +25,6 @@ export function GlowyWavesHero({ className }: { className?: string }) {
     <div
       className={`relative h-full min-h-[320px] w-full overflow-hidden rounded-3xl bg-[var(--navy-deep)] ${className ?? ''}`}
     >
-      {/* soft ambient glow */}
-      <div
-        aria-hidden
-        className="absolute left-1/2 top-1/2 h-[120%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(39,183,207,0.25), transparent 70%)' }}
-      />
       <svg
         viewBox="0 0 1200 600"
         preserveAspectRatio="xMidYMid slice"
@@ -69,12 +63,8 @@ export function GlowyWavesHero({ className }: { className?: string }) {
         ))}
       </svg>
 
-      {/* subtle vignette for depth */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(120% 100% at 50% 0%, transparent 40%, rgba(4,29,68,0.65) 100%)' }}
-      />
+      {/* solid depth overlay (no gradient) */}
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-[var(--navy-deep)]/40" />
     </div>
   );
 }
