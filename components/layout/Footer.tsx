@@ -5,7 +5,7 @@ import { Logo } from '@/components/ui/Logo';
 
 export function Footer() {
   return (
-    <footer className="relative mt-24 bg-ink text-white">
+    <footer className="relative mt-16 bg-ink text-white">
       {/* Wavy top edge (white wave sitting on the dark footer) */}
       <div aria-hidden className="relative -mb-px">
         <svg
@@ -19,10 +19,7 @@ export function Footer() {
           />
         </svg>
       </div>
-      {/* Brand accent line */}
-      <div aria-hidden className="h-1 w-full bg-cyan" />
-
-      <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="container-x grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="[&_*]:!text-white">
             <Logo />
@@ -73,7 +70,7 @@ export function Footer() {
         </FooterCol>
       </div>
 
-      <div className="container-x flex flex-col items-start justify-between gap-3 border-t border-white/15 py-6 text-xs text-white/70 sm:flex-row sm:items-center">
+      <div className="container-x flex flex-col items-start justify-between gap-3 border-t border-white/15 py-5 text-xs text-white/70 sm:flex-row sm:items-center">
         <p>
           © {new Date().getFullYear()} {site.name}. All rights reserved.
         </p>

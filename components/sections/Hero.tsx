@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Stage3D } from '@/components/three/Stage3D';
+import { GlowyWavesHero } from '@/components/ui/glowy-waves-hero-shadcnui';
 import { Button } from '@/components/ui/Button';
 import { TrustedBy } from './TrustedBy';
 
@@ -63,19 +63,14 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* 3D side */}
+        {/* Glowy waves visual */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          className="relative flex justify-center lg:justify-end"
+          className="relative w-full"
         >
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 m-auto h-3/4 w-3/4 rounded-full opacity-60 blur-3xl"
-            style={{ background: 'var(--grad-prism-soft)' }}
-          />
-          <Stage3D variant="hero" />
+          <GlowyWavesHero className="aspect-[4/3] lg:aspect-[5/4]" />
         </motion.div>
       </div>
 

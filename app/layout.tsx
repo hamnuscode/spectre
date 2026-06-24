@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { Sora, Inter } from 'next/font/google';
 import './globals.css';
 import { site } from '@/data/site';
 import { CustomCursor } from '@/components/ui/CustomCursor';
@@ -7,19 +7,16 @@ import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 
-// Display: Cormorant Garamond — an elegant, high-contrast Garamond with
-// refined classical proportions that echo the SPECTRE serif wordmark.
-const cormorant = Cormorant_Garamond({
+// Display: Sora — a clean geometric sans for bold, tight headings.
+const sora = Sora({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
+  weight: ['500', '600', '700', '800'],
   variable: '--font-display-src',
   display: 'swap',
 });
 
-// Body/UI: Manrope — a clean, modern geometric sans that's highly legible
-// and quietly elegant next to the Garamond display.
-const manrope = Manrope({
+// Body/UI: Inter — the clean, highly-legible workhorse.
+const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-body-src',
@@ -89,7 +86,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${cormorant.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       <body>
         <script
           type="application/ld+json"

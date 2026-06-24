@@ -111,16 +111,14 @@ export default function WhySpectrePage() {
             {whySpectre.map((w, i) => (
               <Reveal key={w.title} delay={i * 60}>
                 <TiltCard glow={accents[i % 3]} className="h-full">
-                  <article className="prism-border h-full rounded-2xl bg-white/85 p-6 backdrop-blur-sm">
+                  <article className="h-full rounded-2xl border border-[var(--navy-tint)] bg-white/85 p-6 backdrop-blur-sm">
                     <span
                       aria-hidden
-                      className="mb-4 block h-8 w-8"
-                      style={{
-                        background: 'var(--grad-prism)',
-                        clipPath:
-                          'polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%)',
-                      }}
-                    />
+                      className="mb-4 grid h-10 w-10 place-items-center rounded-xl text-white"
+                      style={{ background: 'var(--navy)' }}
+                    >
+                      <span className="h-2.5 w-2.5 rounded-sm bg-white" />
+                    </span>
                     <h3 className="text-lg">{w.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
                       {w.body}

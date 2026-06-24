@@ -3,6 +3,7 @@ import { ServicesGrid } from '@/components/sections/ServicesGrid';
 import { StatsStrip } from '@/components/sections/StatsStrip';
 import { ProcessRoadmap } from '@/components/sections/ProcessRoadmap';
 import { WhyEnquiry } from '@/components/sections/WhyEnquiry';
+import { FaqSection } from '@/components/sections/FaqSection';
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <StatsStrip />
       <ProcessRoadmap />
       <WhyEnquiry />
+      <FaqSection />
     </>
   );
 }

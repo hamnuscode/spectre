@@ -17,13 +17,7 @@ const scenes = {
 function Fallback() {
   return (
     <div className="grid h-full w-full place-items-center" aria-hidden>
-      <div
-        className="h-40 w-40 animate-drift opacity-80"
-        style={{
-          background: 'var(--navy)',
-          clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)',
-        }}
-      />
+      <div className="h-36 w-36 animate-drift rounded-[2rem] bg-navy/10 ring-1 ring-navy/10" />
     </div>
   );
 }

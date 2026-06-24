@@ -8,11 +8,11 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 /* ---- Wave geometry (viewBox units) ---------------------------------- */
 const N = steps.length;
 const VW = 1000;
-const VH = 340;
+const VH = 280;
 const X0 = 70;
 const STEP = (VW - X0 * 2) / (N - 1);
-const HI = 120;
-const LO = 250;
+const HI = 110;
+const LO = 185;
 
 const nodes = steps.map((step, i) => ({
   ...step,
@@ -99,8 +99,8 @@ export function ProcessRoadmap() {
 
   return (
     // Tall wrapper defines the pinned scroll distance.
-    <section ref={wrapRef} className="relative h-[240vh] bg-offwhite">
-      <div className="sticky top-0 flex min-h-screen flex-col justify-center py-16">
+    <section ref={wrapRef} className="relative h-[180vh] bg-offwhite">
+      <div className="sticky top-0 flex min-h-screen flex-col justify-center py-10">
         <div className="container-x">
           <SectionHeader
             eyebrow="// How We Work"
@@ -122,12 +122,13 @@ export function ProcessRoadmap() {
               style={{ overflow: 'visible' }}
             >
               <path
+                className="roadmap-dots"
                 d={pathD}
                 fill="none"
-                stroke="var(--navy-tint)"
-                strokeWidth={2}
+                stroke="rgba(7,48,109,0.34)"
+                strokeWidth={2.5}
                 strokeLinecap="round"
-                strokeDasharray="1 12"
+                strokeDasharray="2 10"
               />
               <path
                 ref={lineRef}
@@ -183,7 +184,7 @@ export function ProcessRoadmap() {
             </svg>
           </div>
 
-          <div className="relative mx-auto mt-6 max-w-3xl overflow-hidden rounded-2xl border border-[var(--navy-tint)] bg-white/85 p-6 backdrop-blur-sm md:p-8">
+          <div className="relative mx-auto mt-6 flex min-h-[168px] max-w-3xl flex-col overflow-hidden rounded-2xl border border-[var(--navy-tint)] bg-white/85 p-6 backdrop-blur-sm md:p-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={nodes[active].id}

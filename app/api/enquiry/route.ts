@@ -23,7 +23,9 @@ export async function POST(req: Request) {
   const message = String(body.message ?? '').trim();
 
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!name || !emailRe.test(email) || !service || message.length < 10) {
+  // `service` is optional (the contact form treats it as a nice-to-have).
+  void service;
+  if (!name || !emailRe.test(email) || message.length < 10) {
     return NextResponse.json(
       { ok: false, error: 'Validation failed' },
       { status: 422 }

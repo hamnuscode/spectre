@@ -3,7 +3,8 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
-import { Label, Input, Textarea, Select, ErrorText } from './Field';
+import { Label, Input, Textarea, ErrorText } from './Field';
+import { ThemedSelect } from './ThemedSelect';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 type Errors = Partial<
@@ -114,13 +115,17 @@ export function CareersForm({ roles }: { roles: string[] }) {
 
       <div>
         <Label htmlFor="role" required>Role of interest</Label>
-        <Select id="role" name="role" defaultValue="" error={!!errors.role} aria-invalid={!!errors.role} aria-describedby="c-role-err">
-          <option value="" disabled>Choose a role…</option>
-          {roles.map((r) => (
-            <option key={r} value={r}>{r}</option>
-          ))}
-          <option value="General application">General application</option>
-        </Select>
+        <ThemedSelect
+          name="role"
+          ariaLabel="Role of interest"
+          placeholder="Choose a role…"
+          defaultValue=""
+          options={[
+            ...roles.map((r) => ({ value: r, label: r })),
+            { value: 'General application', label: 'General application' },
+          ]}
+          error={!!errors.role}
+        />
         <ErrorText id="c-role-err">{errors.role}</ErrorText>
       </div>
 

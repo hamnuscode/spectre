@@ -67,9 +67,9 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 600; /* elegant, not heavy */
-  letter-spacing: -0.005em;
-  line-height: 1.08;
+  font-weight: 800; /* clean, bold, tight */
+  letter-spacing: -0.025em;
+  line-height: 1.05;
   color: var(--navy);
 }
 
@@ -91,6 +91,26 @@ a {
   max-width: var(--maxw);
   margin-inline: auto;
   padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/* Flowing glow waves (hero) */
+@keyframes waveflow {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-1200px);
+  }
+}
+
+/* Animated marching dots for the roadmap base track */
+@keyframes dashflow {
+  to {
+    stroke-dashoffset: -140;
+  }
+}
+.roadmap-dots {
+  animation: dashflow 2.6s linear infinite;
 }
 
 /* Highlighted words — solid deep-teal accent (no gradient) */
