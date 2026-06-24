@@ -3,9 +3,7 @@ import { site } from '@/data/site';
 import { serviceBySlug } from '@/data/services';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { InteractiveRobotSpline } from '@/components/ui/interactive-3d-robot';
-
-const ROBOT_SCENE_URL = 'https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode';
+import { Globe } from '@/components/ui/Globe';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -53,12 +51,12 @@ export default async function ContactPage({
 
   return (
     <section className="pt-[calc(var(--nav-h)+1.5rem)]">
-      {/* Interactive Spline robot */}
+      {/* Interactive globe */}
       <div className="container-x">
-        <div className="relative h-[300px] w-full overflow-hidden rounded-3xl bg-[var(--navy-deep)] sm:h-[360px]">
-          <InteractiveRobotSpline scene={ROBOT_SCENE_URL} className="absolute inset-0 h-full w-full" />
-          {/* Cover the "Built with Spline" badge (bottom-right) */}
-          <div aria-hidden className="absolute bottom-0 right-0 h-12 w-40 bg-[var(--navy-deep)]" />
+        <div className="relative flex h-[300px] w-full items-center justify-center overflow-hidden rounded-3xl bg-[var(--navy-deep)] sm:h-[360px]">
+          <div className="h-[260px] w-[260px] sm:h-[320px] sm:w-[320px]">
+            <Globe />
+          </div>
         </div>
       </div>
 

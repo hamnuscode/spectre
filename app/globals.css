@@ -93,6 +93,15 @@ a {
   padding-inline: clamp(1.25rem, 4vw, 2.5rem);
 }
 
+/* Diagonal accent lines that grow, hold, then vanish (hero sides) */
+@keyframes growline {
+  0% { transform: scaleY(0); opacity: 0; }
+  18% { opacity: 0.9; }
+  50% { transform: scaleY(1); opacity: 0.9; }
+  82% { opacity: 0; }
+  100% { transform: scaleY(0); opacity: 0; }
+}
+
 /* Flowing glow waves (hero) */
 @keyframes waveflow {
   from {

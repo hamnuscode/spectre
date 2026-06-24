@@ -1,109 +1,32 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-
 /**
- * Background animation — a slowly drifting network of nodes with lines
- * between nearby points (solid colours, no gradients). Canvas-rendered:
- * ~70 nodes, DPR capped at 1.5, pauses when the tab is hidden, disabled for
- * reduced-motion. Sits behind all content (z -10) at a calm opacity.
+ * Ambient background — subtle and neat. Soft gradient washes in gentle brand
+ * tones drift very slowly over a barely-there dot grid. GPU-composited
+ * (transform only), neutralised by the global reduced-motion rule, fixed
+ * behind all content at z -10.
  */
 export function AmbientBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const canvas = canvasRef.current;
-    if (!canvas || reduced) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
-
-    const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
-    let w = 0;
-    let h = 0;
-    let nodes: { x: number; y: number; vx: number; vy: number; c: string }[] = [];
-    const COLORS = ['rgba(7,48,109', 'rgba(39,183,207', 'rgba(43,215,127'];
-
-    const resize = () => {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w * DPR;
-      canvas.height = h * DPR;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      const count = Math.min(75, Math.round((w * h) / 24000));
-      nodes = Array.from({ length: count }, (_, i) => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        c: COLORS[i % 3],
-      }));
-    };
-    resize();
-
-    const MAX = 150;
-    let raf = 0;
-    let running = true;
-
-    const tick = () => {
-      if (!running) return;
-      ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        a.x += a.vx;
-        a.y += a.vy;
-        if (a.x < 0 || a.x > w) a.vx *= -1;
-        if (a.y < 0 || a.y > h) a.vy *= -1;
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < MAX * MAX) {
-            const alpha = (1 - Math.sqrt(d2) / MAX) * 0.22;
-            ctx.strokeStyle = `rgba(7,48,109,${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-      for (const n of nodes) {
-        ctx.fillStyle = `${n.c},0.6)`;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 1.9, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    const onVisible = () => {
-      running = !document.hidden;
-      if (running) raf = requestAnimationFrame(tick);
-      else cancelAnimationFrame(raf);
-    };
-    let rt: number;
-    const onResize = () => {
-      clearTimeout(rt);
-      rt = window.setTimeout(resize, 200);
-    };
-    window.addEventListener('resize', onResize);
-    document.addEventListener('visibilitychange', onVisible);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener('resize', onResize);
-      document.removeEventListener('visibilitychange', onVisible);
-    };
-  }, []);
-
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0 opacity-70" />
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-bg">
+      {/* faint dot grid */}
+      <div
+        className="absolute inset-0 opacity-[0.5]"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(7,48,109,0.08) 1px, transparent 1px)',
+          backgroundSize: '26px 26px',
+          maskImage: 'radial-gradient(ellipse at center, black 35%, transparent 82%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 35%, transparent 82%)',
+        }}
+      />
+      {/* soft drifting gradient washes */}
+      <span className="absolute -left-[12%] -top-[10%] h-[52vmax] w-[52vmax] rounded-full bg-[radial-gradient(circle,rgba(7,48,109,0.07),transparent_65%)] blur-2xl animate-drift" />
+      <span
+        className="absolute right-[-14%] top-[24%] h-[46vmax] w-[46vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.07),transparent_65%)] blur-2xl animate-drift"
+        style={{ animationDelay: '-9s', animationDuration: '30s' }}
+      />
+      <span
+        className="absolute bottom-[-16%] left-[32%] h-[48vmax] w-[48vmax] rounded-full bg-[radial-gradient(circle,rgba(43,215,127,0.06),transparent_65%)] blur-2xl animate-drift"
+        style={{ animationDelay: '-16s', animationDuration: '34s' }}
+      />
     </div>
   );
 }

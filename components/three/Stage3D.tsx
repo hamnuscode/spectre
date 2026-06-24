@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 const scenes = {
   hero: dynamic(() => import('./HeroScene'), { ssr: false, loading: () => <Fallback /> }),
   ico: dynamic(() => import('./IcoScene'), { ssr: false, loading: () => <Fallback /> }),
+  knot: dynamic(() => import('./KnotScene'), { ssr: false, loading: () => <Fallback /> }),
 };
 
 function Fallback() {

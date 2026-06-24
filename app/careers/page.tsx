@@ -27,7 +27,7 @@ export default function CareersPage() {
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">
-            <Stage3D variant="ico" />
+            <Stage3D variant="knot" />
           </div>
         </div>
       </header>
