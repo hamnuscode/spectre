@@ -7,20 +7,14 @@ import { Reveal } from '@/components/ui/Reveal';
 export function StatsStrip() {
   return (
     <section className="relative overflow-hidden bg-ink py-20 text-white lg:py-28">
-      {/* Prismatic accent glows */}
+      {/* Solid navy block + angular facet corner (no gradients) */}
+      <div aria-hidden className="absolute inset-0 bg-[var(--navy-deep)] opacity-60" />
       <div
         aria-hidden
-        className="absolute inset-0 opacity-70"
-        style={{
-          background:
-            'radial-gradient(40vw 40vw at 15% 20%, rgba(7,48,109,0.55), transparent 60%), radial-gradient(36vw 36vw at 85% 80%, rgba(39,183,207,0.22), transparent 60%)',
-        }}
+        className="absolute -right-24 -top-24 h-72 w-72 bg-navy/40"
+        style={{ clipPath: 'polygon(50% 0, 100% 60%, 60% 100%, 0 40%)' }}
       />
-      <div
-        aria-hidden
-        className="absolute left-0 top-0 h-1 w-full"
-        style={{ background: 'var(--grad-prism)' }}
-      />
+      <div aria-hidden className="absolute left-0 top-0 h-1 w-full bg-cyan" />
 
       <div className="container-x relative">
         <Reveal>
@@ -58,13 +52,12 @@ function StatItem({
     <div className="relative">
       <div
         aria-hidden
-        className="absolute -left-3 top-1 h-12 w-1 rounded-full"
-        style={{ background: 'var(--grad-prism)' }}
+        className="absolute -left-3 top-1 h-12 w-1 rounded-full bg-cyan"
       />
       <div className="pl-3">
         <div className="font-display text-[clamp(3rem,7vw,4.6rem)] font-black leading-none text-white">
           <span ref={ref}>{current}</span>
-          <span className="text-gradient">{suffix}</span>
+          <span className="text-gradient on-dark">{suffix}</span>
         </div>
         <div className="mt-3 text-sm uppercase tracking-[0.18em] text-white/60">
           {label}

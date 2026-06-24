@@ -71,13 +71,11 @@ export function TiltCard({
         } as React.CSSProperties
       }
     >
-      {/* Pointer-tracked sheen */}
+      {/* Flat brand-colour wash on hover (no gradient) */}
       <span
         aria-hidden
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover/tilt:opacity-100"
-        style={{
-          background: `radial-gradient(420px circle at var(--mx,50%) var(--my,50%), ${glowColor}, transparent 60%)`,
-        }}
+        style={{ background: glowColor }}
       />
       {children}
     </div>

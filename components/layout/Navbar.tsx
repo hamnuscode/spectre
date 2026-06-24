@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { nav } from '@/data/site';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
+import { NavIcon } from './NavIcon';
 import { cn } from '@/lib/utils';
 
 export function Navbar() {
@@ -62,14 +63,37 @@ export function Navbar() {
                     key={item.href}
                     href={item.href}
                     data-cursor="hover"
+                    aria-label={item.label}
+                    title={scrolled ? item.label : undefined}
                     className={cn(
-                      'relative rounded-full px-3.5 py-2 text-sm transition-colors duration-300',
+                      'group/nav relative grid place-items-center rounded-full transition-[color,width,padding] duration-300',
+                      scrolled ? 'h-10 w-10' : 'px-3.5 py-2',
                       active
                         ? 'text-navy'
                         : 'text-[var(--muted)] hover:text-[var(--cyan)]'
                     )}
                   >
-                    {item.label}
+                    {/* Collapsed: icon. Expanded: label. Cross-fade. */}
+                    <span
+                      className={cn(
+                        'transition-all duration-300',
+                        scrolled
+                          ? 'scale-100 opacity-100'
+                          : 'pointer-events-none absolute scale-75 opacity-0'
+                      )}
+                    >
+                      <NavIcon href={item.href} />
+                    </span>
+                    <span
+                      className={cn(
+                        'whitespace-nowrap text-sm transition-all duration-300',
+                        scrolled
+                          ? 'pointer-events-none absolute scale-90 opacity-0'
+                          : 'scale-100 opacity-100'
+                      )}
+                    >
+                      {item.label}
+                    </span>
                     {active && (
                       <motion.span
                         layoutId="nav-active"

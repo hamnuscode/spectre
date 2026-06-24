@@ -12,13 +12,16 @@ export function CtaBand({
     <section className="container-x py-20">
       <Reveal>
         <div className="relative overflow-hidden rounded-3xl bg-navy px-8 py-14 text-center text-white md:py-20">
+          {/* Solid angular facets (no gradient) */}
           <div
             aria-hidden
-            className="absolute inset-0 opacity-80"
-            style={{
-              background:
-                'radial-gradient(50% 60% at 18% 10%, rgba(39,183,207,0.45), transparent 60%), radial-gradient(50% 60% at 85% 90%, rgba(43,215,127,0.4), transparent 60%)',
-            }}
+            className="absolute -left-10 -top-10 h-56 w-56 bg-cyan/20"
+            style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }}
+          />
+          <div
+            aria-hidden
+            className="absolute -bottom-10 -right-10 h-56 w-56 bg-green/20"
+            style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 100%)' }}
           />
           <div className="relative">
             <h2 className="mx-auto max-w-2xl text-white text-[clamp(1.9rem,4vw,3rem)]">

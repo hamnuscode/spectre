@@ -1,8 +1,8 @@
 /**
- * Persistent ambient layer behind all content.
- * Three slow-drifting prismatic blobs + a faint geometric grid.
- * GPU-composited (transform/opacity only) — costs ~0 CPU and never
- * competes with text (very low opacity, sits at z-index -1, fixed).
+ * Persistent ambient layer behind all content — sparse, slow-drifting
+ * geometric line-art and angular shards in flat brand colours (no gradients).
+ * Everything is transform/opacity animated → GPU-composited, ~0 CPU, and
+ * kept at very low opacity so it never competes with text.
  */
 export function AmbientBackground() {
   return (
@@ -10,30 +10,32 @@ export function AmbientBackground() {
       aria-hidden
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      {/* Soft prismatic blobs */}
-      <span className="absolute -left-[10%] top-[-8%] h-[46vmax] w-[46vmax] rounded-full bg-[radial-gradient(circle,rgba(7,48,109,0.16),transparent_62%)] blur-[8px] animate-drift" />
+      {/* Outlined drifting triangles (echo the logo's facets) */}
       <span
-        className="absolute right-[-12%] top-[18%] h-[40vmax] w-[40vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.16),transparent_62%)] blur-[8px] animate-drift"
-        style={{ animationDelay: '-6s', animationDuration: '22s' }}
+        className="absolute -left-[6%] top-[8%] h-[34vmax] w-[34vmax] animate-drift border-2 border-navy/[0.05]"
+        style={{ clipPath: 'polygon(50% 0, 100% 100%, 0 100%)' }}
       />
       <span
-        className="absolute bottom-[-14%] left-[28%] h-[42vmax] w-[42vmax] rounded-full bg-[radial-gradient(circle,rgba(43,215,127,0.14),transparent_62%)] blur-[8px] animate-drift"
-        style={{ animationDelay: '-12s', animationDuration: '26s' }}
-      />
-
-      {/* Faint geometric grid */}
-      <div
-        className="absolute inset-0 opacity-[0.5]"
+        className="absolute right-[-8%] top-[26%] h-[26vmax] w-[26vmax] animate-drift border-2 border-cyan/[0.07]"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(7,48,109,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(7,48,109,0.035) 1px, transparent 1px)',
-          backgroundSize: '64px 64px',
-          maskImage:
-            'radial-gradient(ellipse at center, black 30%, transparent 78%)',
-          WebkitMaskImage:
-            'radial-gradient(ellipse at center, black 30%, transparent 78%)',
+          clipPath: 'polygon(50% 0, 100% 100%, 0 100%)',
+          animationDelay: '-7s',
+          animationDuration: '24s',
         }}
       />
+      <span
+        className="absolute bottom-[-6%] left-[34%] h-[24vmax] w-[24vmax] animate-drift border-2 border-green/[0.07]"
+        style={{
+          clipPath: 'polygon(50% 0, 100% 100%, 0 100%)',
+          animationDelay: '-13s',
+          animationDuration: '28s',
+        }}
+      />
+
+      {/* Thin solid accent lines drifting on the diagonal */}
+      <span className="absolute left-[14%] top-0 h-[120%] w-px rotate-[14deg] bg-navy/[0.04]" />
+      <span className="absolute right-[22%] top-0 h-[120%] w-px -rotate-[10deg] bg-cyan/[0.06]" />
+      <span className="absolute left-[62%] top-0 h-[120%] w-px rotate-[8deg] bg-navy/[0.04]" />
     </div>
   );
 }

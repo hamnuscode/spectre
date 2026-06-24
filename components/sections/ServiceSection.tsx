@@ -29,11 +29,13 @@ export function ServiceSection({
         {/* Visual facet */}
         <Reveal className={flip ? 'lg:order-2' : ''}>
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl prism-border bg-offwhite">
+            <div aria-hidden className="absolute inset-0 bg-offwhite" />
             <div
               aria-hidden
-              className="absolute inset-0 opacity-90"
+              className="absolute right-6 top-6 h-20 w-20 opacity-20"
               style={{
-                background: `radial-gradient(60% 60% at 30% 20%, ${facet[s.accent]}22, transparent 60%), var(--grad-prism-soft)`,
+                background: facet[s.accent],
+                clipPath: 'polygon(50% 0, 100% 100%, 0 100%)',
               }}
             />
             <span

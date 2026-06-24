@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Space_Grotesk } from 'next/font/google';
+import { Spectral, Hanken_Grotesk } from 'next/font/google';
 import './globals.css';
 import { site } from '@/data/site';
 import { CustomCursor } from '@/components/ui/CustomCursor';
@@ -7,22 +7,23 @@ import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 
-// Display: Fraunces — a contemporary serif with a sharp, optical "Soft/Wonky"
-// axis that echoes the classical, wide-tracked SPECTRE wordmark.
-const fraunces = Fraunces({
+// Display: Spectral — a high-contrast serif (the name itself nods to
+// "Spectre") with crisp, blade-like serifs that echo the classical,
+// wide-tracked SPECTRE wordmark in the logo.
+const spectral = Spectral({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '900'],
+  weight: ['400', '500', '600', '700', '800'],
   style: ['normal', 'italic'],
-  variable: '--font-fraunces',
+  variable: '--font-spectral',
   display: 'swap',
 });
 
-// Body/UI: Space Grotesk — a characterful geometric grotesk whose angular
-// terminals mirror the prismatic logo while staying crisp at text sizes.
-const grotesk = Space_Grotesk({
+// Body/UI: Hanken Grotesk — a clean, highly legible humanist grotesk with
+// just enough character to stay distinctive next to the serif display.
+const hanken = Hanken_Grotesk({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '700'],
-  variable: '--font-grotesk',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-hanken',
   display: 'swap',
 });
 
@@ -89,7 +90,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${fraunces.variable} ${grotesk.variable}`}>
+    <html lang="en" className={`${spectral.variable} ${hanken.variable}`}>
       <body>
         <script
           type="application/ld+json"

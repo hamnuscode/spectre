@@ -43,11 +43,7 @@ export function Button({
       {variant === 'primary' && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          style={{
-            background:
-              'linear-gradient(120deg, rgba(39,183,207,0.0), rgba(43,215,127,0.35))',
-          }}
+          className="pointer-events-none absolute inset-0 rounded-full bg-[var(--cyan)]/25 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         />
       )}
     </>

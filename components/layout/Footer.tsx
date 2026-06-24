@@ -12,12 +12,8 @@ export function Footer() {
         className="absolute inset-x-0 top-0 h-[5vw] bg-bg"
         style={{ clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 100%)' }}
       />
-      {/* Prism accent line */}
-      <div
-        aria-hidden
-        className="h-1 w-full"
-        style={{ background: 'var(--grad-prism)' }}
-      />
+      {/* Brand accent line */}
+      <div aria-hidden className="h-1 w-full bg-cyan" />
 
       <div className="container-x grid gap-12 py-16 pt-20 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>

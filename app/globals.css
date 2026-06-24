@@ -19,18 +19,14 @@
   --offwhite: #f6f8fb;
   --muted: #5b6b85;
 
-  /* Signature gradient */
-  --grad-prism: linear-gradient(120deg, var(--navy) 0%, var(--cyan) 52%, var(--green) 100%);
-  --grad-prism-soft: linear-gradient(
-    120deg,
-    rgba(7, 48, 109, 0.12) 0%,
-    rgba(39, 183, 207, 0.12) 52%,
-    rgba(43, 215, 127, 0.12) 100%
-  );
+  /* Solid brand fills (no gradients) */
+  --grad-prism: var(--navy); /* solid navy for facets / pins / accent fills */
+  --grad-prism-soft: rgba(7, 48, 109, 0.06);
+  --accent: #0c6f87; /* AA-safe deep teal for highlighted words & links */
 
   /* Typography */
-  --font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
-  --font-body: var(--font-grotesk), system-ui, sans-serif;
+  --font-display: var(--font-spectral), Georgia, 'Times New Roman', serif;
+  --font-body: var(--font-hanken), system-ui, sans-serif;
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -51,6 +47,8 @@
 }
 
 html {
+  /* Slightly smaller global type scale (rem-based sizing scales down ~7%) */
+  font-size: 93%;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -69,9 +67,9 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.04;
+  font-weight: 800; /* Spectral's heaviest weight */
+  letter-spacing: -0.015em;
+  line-height: 1.06;
   color: var(--navy);
 }
 
@@ -95,11 +93,14 @@ a {
   padding-inline: clamp(1.25rem, 4vw, 2.5rem);
 }
 
+/* Highlighted words — solid deep-teal accent (no gradient) */
 .text-gradient {
-  background: var(--grad-prism);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
+.text-gradient.on-dark {
+  color: var(--green);
+  -webkit-text-fill-color: var(--green);
 }
 
 .wordmark {

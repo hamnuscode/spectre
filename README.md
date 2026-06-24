@@ -38,19 +38,20 @@ Node 18.18+ (built and verified on Node 25).
 
 ## Typography — the font pairing
 
-- **Display: [Fraunces](https://fonts.google.com/specimen/Fraunces)** — a
-  contemporary serif with optical-size and "soft/wonky" axes. Its sharp,
-  high-contrast letterforms echo the **classical, wide-tracked SPECTRE
-  wordmark** in the logo; headings carry the same DNA, and the `.wordmark`
-  utility applies the wide `0.32em` tracking directly.
-- **Body / UI: [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk)**
-  — a characterful geometric grotesk whose angular terminals mirror the
-  prismatic, triangular logo while staying highly legible at text sizes.
+- **Display: [Spectral](https://fonts.google.com/specimen/Spectral)** — a
+  high-contrast serif whose name itself nods to *Spectre*. Its crisp,
+  blade-like serifs echo the **classical, wide-tracked SPECTRE wordmark** in
+  the logo; headings carry the same DNA, and the `.wordmark` utility applies
+  the wide `0.32em` tracking directly.
+- **Body / UI: [Hanken Grotesk](https://fonts.google.com/specimen/Hanken+Grotesk)**
+  — a clean, highly-legible humanist grotesk with just enough character to
+  stay distinctive next to the serif display.
 
-**Why this pairing:** a refined serif against a geometric grotesk gives strong
-weight/shape contrast (serif 900 display vs. grotesk 300 body) without the
-generic Inter/Poppins look — and both halves trace back to a real feature of
-the Spectre logo (classical serif wordmark + angular prism).
+**Why this pairing:** a refined serif against a humanist grotesk gives strong
+weight/shape contrast (serif 800 display vs. grotesk 300 body) without the
+generic Inter/Poppins look — and the display half traces straight back to the
+logo's classical serif wordmark. The global type scale is set slightly tighter
+(`html { font-size: 93% }`) for a more refined density.
 
 ---
 
@@ -64,16 +65,19 @@ No stray hex in components.
 |---|---|---|
 | `--navy` | `#07306D` | Primary brand, headings, primary buttons, 3D base |
 | `--ink` | `#000000` | Body text, dark strips |
-| `--green` | `#2BD77F` | Energy accent, hover glows, gradient stop |
-| `--cyan` | `#27B7CF` | Secondary accent, links, gradient stop |
+| `--green` | `#2BD77F` | Energy accent, hover glows, roadmap fill |
+| `--cyan` | `#27B7CF` | Secondary accent, accent lines |
+| `--accent` | `#0C6F87` | AA-safe deep teal for highlighted words & links |
 | `--bg` | `#FFFFFF` | Page background |
 | `--offwhite` | `#F6F8FB` | Section banding |
 | `--navy-deep / -soft / -tint` | derived | Shades & tints |
 
-**Signature gradient** `--grad-prism` (navy → cyan → green) drives the cursor,
-text highlights, accents, and ambient mesh. Angular/triangular motifs
-(`clip-path` shards, diagonal dividers, the `.prism-border` gradient ring)
-recur throughout to echo the logo.
+**No gradients.** The design uses **solid brand fills only** — colour comes
+from flat angular facets (`clip-path` shards/triangles), solid accent lines,
+the `.prism-border` hairline ring, and the deep-teal highlight on key words.
+Angular/triangular motifs recur throughout to echo the logo. (The only
+`linear-gradient` in the codebase is a transparency *mask* fading the
+trusted-by marquee edges — not a visible colour gradient.)
 
 ---
 

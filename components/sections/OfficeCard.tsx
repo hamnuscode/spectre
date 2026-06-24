@@ -12,24 +12,17 @@ export function OfficeCard() {
     <div className="prism-border overflow-hidden rounded-3xl bg-navy text-white">
       {/* Radar */}
       <div className="relative aspect-[5/4] overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(circle at 50% 55%, rgba(39,183,207,0.35), transparent 60%), var(--navy)',
-          }}
-        />
-        {/* Grid */}
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
+        <div aria-hidden className="absolute inset-0 bg-navy" />
+        {/* Static concentric reference rings (solid borders, no gradient) */}
+        <div className="absolute left-1/2 top-[55%] -translate-x-1/2 -translate-y-1/2">
+          {[60, 120, 180].map((d) => (
+            <span
+              key={d}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/10"
+              style={{ width: d, height: d }}
+            />
+          ))}
+        </div>
         {/* Concentric pulse rings */}
         <div className="absolute left-1/2 top-[55%] -translate-x-1/2 -translate-y-1/2">
           {[0, 1, 2].map((i) => (
@@ -44,11 +37,8 @@ export function OfficeCard() {
           ))}
           {/* Pin */}
           <span
-            className="relative block h-5 w-5 rounded-full"
-            style={{
-              background: 'var(--grad-prism)',
-              boxShadow: '0 0 0 4px rgba(43,215,127,0.25)',
-            }}
+            className="relative block h-5 w-5 rounded-full bg-green"
+            style={{ boxShadow: '0 0 0 4px rgba(43,215,127,0.25)' }}
           />
         </div>
 
