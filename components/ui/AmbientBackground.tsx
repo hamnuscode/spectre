@@ -1,41 +1,120 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+
 /**
- * Persistent ambient layer behind all content — sparse, slow-drifting
- * geometric line-art and angular shards in flat brand colours (no gradients).
- * Everything is transform/opacity animated → GPU-composited, ~0 CPU, and
- * kept at very low opacity so it never competes with text.
+ * Tech background — a constellation/network of drifting nodes with lines
+ * drawn between nearby points (an "engineering mesh"). Canvas-rendered for
+ * performance: ~60 nodes, DPR capped at 1.5, pauses when the tab is hidden,
+ * and falls back to a static faint grid for reduced-motion. Very low opacity
+ * so it never competes with text. Fixed behind all content (z -10).
  */
 export function AmbientBackground() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
-    >
-      {/* Outlined drifting triangles (echo the logo's facets) */}
-      <span
-        className="absolute -left-[6%] top-[8%] h-[34vmax] w-[34vmax] animate-drift border-2 border-navy/[0.05]"
-        style={{ clipPath: 'polygon(50% 0, 100% 100%, 0 100%)' }}
-      />
-      <span
-        className="absolute right-[-8%] top-[26%] h-[26vmax] w-[26vmax] animate-drift border-2 border-cyan/[0.07]"
-        style={{
-          clipPath: 'polygon(50% 0, 100% 100%, 0 100%)',
-          animationDelay: '-7s',
-          animationDuration: '24s',
-        }}
-      />
-      <span
-        className="absolute bottom-[-6%] left-[34%] h-[24vmax] w-[24vmax] animate-drift border-2 border-green/[0.07]"
-        style={{
-          clipPath: 'polygon(50% 0, 100% 100%, 0 100%)',
-          animationDelay: '-13s',
-          animationDuration: '28s',
-        }}
-      />
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-      {/* Thin solid accent lines drifting on the diagonal */}
-      <span className="absolute left-[14%] top-0 h-[120%] w-px rotate-[14deg] bg-navy/[0.04]" />
-      <span className="absolute right-[22%] top-0 h-[120%] w-px -rotate-[10deg] bg-cyan/[0.06]" />
-      <span className="absolute left-[62%] top-0 h-[120%] w-px rotate-[8deg] bg-navy/[0.04]" />
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canvas = canvasRef.current;
+    if (!canvas || reduced) return;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    let w = 0;
+    let h = 0;
+    let nodes: { x: number; y: number; vx: number; vy: number; c: string }[] = [];
+
+    const COLORS = ['rgba(7,48,109', 'rgba(39,183,207', 'rgba(43,215,127'];
+
+    const resize = () => {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * DPR;
+      canvas.height = h * DPR;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      // Density scales with area, capped for perf.
+      const count = Math.min(70, Math.round((w * h) / 26000));
+      nodes = Array.from({ length: count }, (_, i) => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
+        c: COLORS[i % 3],
+      }));
+    };
+    resize();
+
+    const MAX = 150; // link distance
+    let raf = 0;
+    let running = true;
+
+    const tick = () => {
+      if (!running) return;
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        a.x += a.vx;
+        a.y += a.vy;
+        if (a.x < 0 || a.x > w) a.vx *= -1;
+        if (a.y < 0 || a.y > h) a.vy *= -1;
+
+        // links
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < MAX * MAX) {
+            const alpha = (1 - Math.sqrt(d2) / MAX) * 0.16;
+            ctx.strokeStyle = `rgba(7,48,109,${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      // nodes
+      for (const n of nodes) {
+        ctx.fillStyle = `${n.c},0.5)`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    const onVisible = () => {
+      running = !document.hidden;
+      if (running) raf = requestAnimationFrame(tick);
+      else cancelAnimationFrame(raf);
+    };
+
+    let resizeT: number;
+    const onResize = () => {
+      clearTimeout(resizeT);
+      resizeT = window.setTimeout(resize, 200);
+    };
+
+    window.addEventListener('resize', onResize);
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', onResize);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, []);
+
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <canvas ref={canvasRef} className="absolute inset-0 opacity-[0.6]" />
     </div>
   );
 }

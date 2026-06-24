@@ -1,34 +1,27 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useSpring,
-} from 'framer-motion';
-import { process } from '@/data/site';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { process as steps } from '@/data/site';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 
 /* ---- Wave geometry (viewBox units) ---------------------------------- */
-const N = process.length;
+const N = steps.length;
 const VW = 1000;
 const VH = 340;
 const X0 = 70;
 const STEP = (VW - X0 * 2) / (N - 1);
-const HI = 120; // crest y
-const LO = 250; // trough y
+const HI = 120;
+const LO = 250;
 
-const nodes = process.map((step, i) => ({
+const nodes = steps.map((step, i) => ({
   ...step,
   x: X0 + i * STEP,
   y: i % 2 === 0 ? LO : HI,
-  up: i % 2 !== 0, // crest → label above
-  t: i / (N - 1), // scroll threshold
+  up: i % 2 !== 0,
+  t: i / (N - 1),
 }));
 
-// Smooth wave path through the nodes.
 const pathD = nodes.reduce((d, n, i) => {
   if (i === 0) return `M ${n.x} ${n.y}`;
   const p = nodes[i - 1];
@@ -37,90 +30,123 @@ const pathD = nodes.reduce((d, n, i) => {
 }, '');
 
 /**
- * "How We Work" — a wavy roadmap whose coloured line draws in as the section
- * scrolls through the viewport. Nodes fill once the line reaches them; the
- * detail panel below tracks the furthest-reached step (and can be previewed
- * by clicking a node). The fill is a single Framer `pathLength` motion value
- * (GPU-smooth), with a spring for buttery scrubbing. Reduced-motion users
- * still get a fully-drawn, readable diagram.
+ * "How We Work" — the inner panel is CSS-sticky inside a tall wrapper, so it
+ * stays pinned while you scroll; the coloured line scrubs 0→100% across that
+ * distance and nodes fill as it reaches them. Once it completes, the wrapper
+ * ends and the page moves on. Driven by a throttled rAF scroll listener that
+ * writes straight to the DOM (no per-frame React renders). Reduced-motion
+ * users get a fully-drawn static diagram.
  */
 export function ProcessRoadmap() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 78%', 'end 55%'],
-  });
-  const drawn = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 26,
-    mass: 0.4,
-  });
-
-  const [reached, setReached] = useState(0);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<SVGPathElement>(null);
+  const nodeRefs = useRef<(SVGGElement | null)[]>([]);
   const [active, setActive] = useState(0);
 
-  useMotionValueEvent(drawn, 'change', (v) => {
-    let r = 0;
-    for (let i = 0; i < N; i++) if (nodes[i].t <= v + 0.02) r = i;
-    setReached((prev) => {
-      if (prev !== r) setActive(r);
-      return r;
-    });
-  });
+  // Plain rAF scroll listener → sticky-scrub progress written straight to the
+  // DOM. (Avoids Framer's scroll hooks, which trip a Next 15.5 prerender bug.)
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+
+    const paint = (p: number) => {
+      const line = lineRef.current;
+      if (line) {
+        const len = line.getTotalLength();
+        line.style.strokeDasharray = `${len}`;
+        line.style.strokeDashoffset = `${len * (1 - p)}`;
+      }
+      let reached = 0;
+      nodeRefs.current.forEach((g, i) => {
+        if (!g) return;
+        const on = p + 0.001 >= nodes[i].t;
+        if (on) reached = i;
+        const dot = g.querySelector<SVGCircleElement>('[data-dot]');
+        const ring = g.querySelector<SVGCircleElement>('[data-ring]');
+        const label = g.querySelector<SVGTextElement>('[data-label]');
+        if (dot) dot.setAttribute('r', on ? '6' : '0');
+        if (ring) ring.setAttribute('stroke', on ? 'var(--accent)' : 'var(--navy-tint)');
+        if (label) label.setAttribute('fill', on ? 'var(--navy)' : 'var(--muted)');
+      });
+      setActive((prev) => (prev === reached ? prev : reached));
+    };
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      paint(1);
+      return;
+    }
+
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const rect = wrap.getBoundingClientRect();
+        const dist = rect.height - window.innerHeight;
+        const p = dist > 0 ? Math.min(1, Math.max(0, -rect.top / dist)) : 0;
+        paint(p);
+      });
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
 
   return (
-    <section ref={ref} className="bg-offwhite py-20 lg:py-28">
-      <div className="container-x">
-        <SectionHeader
-          eyebrow="// How We Work"
-          title={
-            <>
-              A process that fills in{' '}
-              <span className="text-gradient">as you go.</span>
-            </>
-          }
-          intro="From first conversation to ongoing support. Scroll to trace the path — or tap any stop to jump ahead."
-        />
+    // Tall wrapper defines the pinned scroll distance.
+    <section ref={wrapRef} className="relative h-[240vh] bg-offwhite">
+      <div className="sticky top-0 flex min-h-screen flex-col justify-center py-16">
+        <div className="container-x">
+          <SectionHeader
+            eyebrow="// How We Work"
+            title={
+              <>
+                A process that fills in{' '}
+                <span className="text-gradient">as you go.</span>
+              </>
+            }
+            intro="From first conversation to ongoing support. Keep scrolling to draw the path; tap any stop to read it."
+          />
 
-        {/* Roadmap */}
-        <div className="mt-14">
-          <svg
-            viewBox={`0 0 ${VW} ${VH}`}
-            className="w-full"
-            role="img"
-            aria-label="Spectre's five-step process roadmap"
-            style={{ overflow: 'visible' }}
-          >
-            {/* Base dotted track */}
-            <path
-              d={pathD}
-              fill="none"
-              stroke="var(--navy-tint)"
-              strokeWidth={3}
-              strokeLinecap="round"
-              strokeDasharray="1 14"
-            />
-            {/* Drawn coloured line */}
-            <motion.path
-              d={pathD}
-              fill="none"
-              stroke="var(--green)"
-              strokeWidth={5}
-              strokeLinecap="round"
-              style={{ pathLength: drawn }}
-            />
+          <div className="mt-8">
+            <svg
+              viewBox={`0 0 ${VW} ${VH}`}
+              className="w-full"
+              role="img"
+              aria-label="Spectre's five-step process roadmap"
+              style={{ overflow: 'visible' }}
+            >
+              <path
+                d={pathD}
+                fill="none"
+                stroke="var(--navy-tint)"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeDasharray="1 12"
+              />
+              <path
+                ref={lineRef}
+                d={pathD}
+                fill="none"
+                stroke="var(--accent)"
+                strokeWidth={4}
+                strokeLinecap="round"
+              />
 
-            {/* Nodes + labels */}
-            {nodes.map((n, i) => {
-              const filled = i <= reached;
-              const isActive = i === active;
-              return (
+              {nodes.map((n, i) => (
                 <g
                   key={n.id}
+                  ref={(el) => {
+                    nodeRefs.current[i] = el;
+                  }}
                   className="cursor-pointer"
                   onClick={() => setActive(i)}
                 >
-                  {/* generous hit area */}
                   <rect
                     x={n.x - 60}
                     y={n.up ? n.y - 60 : n.y - 20}
@@ -128,75 +154,57 @@ export function ProcessRoadmap() {
                     height={90}
                     fill="transparent"
                   />
-                  <circle
-                    cx={n.x}
-                    cy={n.y}
-                    r={filled ? 15 : 12}
-                    fill={filled ? 'var(--green)' : '#ffffff'}
-                    stroke={filled ? 'var(--green)' : 'var(--navy-tint)'}
-                    strokeWidth={3}
-                    style={{ transition: 'r .3s ease, fill .3s ease' }}
-                  />
-                  {isActive && (
-                    <circle cx={n.x} cy={n.y} r={23} fill="none" stroke="var(--navy)" strokeWidth={1.5} opacity={0.5} />
+                  <circle cx={n.x} cy={n.y} r={11} fill="#ffffff" data-ring stroke="var(--navy-tint)" strokeWidth={1.5} />
+                  <circle cx={n.x} cy={n.y} r={0} fill="var(--accent)" data-dot style={{ transition: 'r .35s ease' }} />
+                  {i === active && (
+                    <circle cx={n.x} cy={n.y} r={18} fill="none" stroke="var(--accent)" strokeWidth={1} opacity={0.4} />
                   )}
                   <text
+                    data-label
                     x={n.x}
-                    y={n.up ? n.y - 34 : n.y + 46}
+                    y={n.up ? n.y - 30 : n.y + 40}
                     textAnchor="middle"
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 20,
-                      fontWeight: isActive ? 700 : 500,
-                      fill: filled ? 'var(--navy)' : 'var(--muted)',
-                      transition: 'fill .3s ease',
-                    }}
+                    fill="var(--muted)"
+                    style={{ fontFamily: 'var(--font-body)', fontSize: 19, fontWeight: 600 }}
                   >
                     {n.title}
                   </text>
                   <text
                     x={n.x}
-                    y={n.up ? n.y - 56 : n.y + 66}
+                    y={n.up ? n.y - 50 : n.y + 60}
                     textAnchor="middle"
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 12,
-                      letterSpacing: 2,
-                      fill: 'var(--cyan)',
-                    }}
+                    fill="var(--accent)"
+                    style={{ fontFamily: 'var(--font-body)', fontSize: 11, letterSpacing: 2 }}
                   >
                     {`0${i + 1}`}
                   </text>
                 </g>
-              );
-            })}
-          </svg>
-        </div>
+              ))}
+            </svg>
+          </div>
 
-        {/* Active detail */}
-        <div className="relative mx-auto mt-6 max-w-3xl overflow-hidden rounded-2xl prism-border bg-white/80 p-7 backdrop-blur-sm md:p-9">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={nodes[active].id}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="flex items-center gap-3">
-                <span className="wordmark text-xs text-[var(--cyan)]">
-                  Step {active + 1} of {N}
-                </span>
-                <span className="h-px flex-1 bg-[var(--navy-tint)]" />
-                <span className="font-display text-base font-bold text-navy">
-                  {nodes[active].title}
-                </span>
-              </div>
-              <p className="mt-4 leading-relaxed text-ink/70">
-                {nodes[active].detail}
-              </p>
-            </motion.div>
-          </AnimatePresence>
+          <div className="relative mx-auto mt-6 max-w-3xl overflow-hidden rounded-2xl border border-[var(--navy-tint)] bg-white/85 p-6 backdrop-blur-sm md:p-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={nodes[active].id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="wordmark text-xs text-[var(--accent)]">
+                    Step {active + 1} of {N}
+                  </span>
+                  <span className="h-px flex-1 bg-[var(--navy-tint)]" />
+                  <span className="font-display text-base font-semibold text-navy">
+                    {nodes[active].title}
+                  </span>
+                </div>
+                <p className="mt-3 leading-relaxed text-ink/70">{nodes[active].detail}</p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>

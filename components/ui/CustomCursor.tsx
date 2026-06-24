@@ -50,11 +50,17 @@ export function CustomCursor() {
     const interactiveSel = 'a, button, input, textarea, select, [data-cursor="hover"], [role="button"]';
     const onOver = (e: Event) => {
       const t = e.target as HTMLElement;
-      if (t.closest?.(interactiveSel)) ring.classList.add('is-hover');
+      if (t.closest?.(interactiveSel)) {
+        ring.classList.add('is-hover');
+        dot.classList.add('is-hover');
+      }
     };
     const onOut = (e: Event) => {
       const t = e.target as HTMLElement;
-      if (t.closest?.(interactiveSel)) ring.classList.remove('is-hover');
+      if (t.closest?.(interactiveSel)) {
+        ring.classList.remove('is-hover');
+        dot.classList.remove('is-hover');
+      }
     };
 
     window.addEventListener('pointermove', onMove, { passive: true });

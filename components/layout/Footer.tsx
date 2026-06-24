@@ -5,25 +5,32 @@ import { Logo } from '@/components/ui/Logo';
 
 export function Footer() {
   return (
-    <footer className="relative mt-24 overflow-hidden bg-ink text-white/80">
-      {/* Angular top edge */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-[5vw] bg-bg"
-        style={{ clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 100%)' }}
-      />
+    <footer className="relative mt-24 bg-ink text-white">
+      {/* Wavy top edge (white wave sitting on the dark footer) */}
+      <div aria-hidden className="relative -mb-px">
+        <svg
+          viewBox="0 0 1440 90"
+          preserveAspectRatio="none"
+          className="block h-[6vw] min-h-[40px] w-full"
+        >
+          <path
+            d="M0,40 C240,90 480,0 720,40 C960,80 1200,10 1440,45 L1440,0 L0,0 Z"
+            fill="var(--bg)"
+          />
+        </svg>
+      </div>
       {/* Brand accent line */}
       <div aria-hidden className="h-1 w-full bg-cyan" />
 
-      <div className="container-x grid gap-12 py-16 pt-20 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="[&_*]:!text-white">
             <Logo />
           </div>
-          <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/80">
             {site.description}
           </p>
-          <p className="mt-5 text-sm text-white/70">{site.responsePromise}</p>
+          <p className="mt-5 text-sm font-medium text-white">{site.responsePromise}</p>
         </div>
 
         <FooterCol title="Company">
@@ -57,7 +64,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor="hover"
-                className="text-xs uppercase tracking-widest text-white/55 transition-colors hover:text-[var(--green)]"
+                className="text-xs uppercase tracking-widest text-white/85 transition-colors hover:text-[var(--green)]"
               >
                 {s.label.split(' ')[0]}
               </a>
@@ -66,11 +73,11 @@ export function Footer() {
         </FooterCol>
       </div>
 
-      <div className="container-x flex flex-col items-start justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/45 sm:flex-row sm:items-center">
+      <div className="container-x flex flex-col items-start justify-between gap-3 border-t border-white/15 py-6 text-xs text-white/70 sm:flex-row sm:items-center">
         <p>
           © {new Date().getFullYear()} {site.name}. All rights reserved.
         </p>
-        <p className="wordmark text-[0.65rem] text-white/40">
+        <p className="wordmark text-[0.65rem] text-white/60">
           Driving Real Growth
         </p>
       </div>
@@ -107,7 +114,7 @@ function FooterLink({
       <Link
         href={href}
         data-cursor="hover"
-        className="text-sm text-white/60 transition-colors duration-300 hover:text-white"
+        className="text-sm text-white/80 transition-colors duration-300 hover:text-[var(--green)]"
       >
         {children}
       </Link>

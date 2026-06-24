@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Spectral, Hanken_Grotesk } from 'next/font/google';
+import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import './globals.css';
 import { site } from '@/data/site';
 import { CustomCursor } from '@/components/ui/CustomCursor';
@@ -7,23 +7,22 @@ import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 
-// Display: Spectral — a high-contrast serif (the name itself nods to
-// "Spectre") with crisp, blade-like serifs that echo the classical,
-// wide-tracked SPECTRE wordmark in the logo.
-const spectral = Spectral({
+// Display: Cormorant Garamond — an elegant, high-contrast Garamond with
+// refined classical proportions that echo the SPECTRE serif wordmark.
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
-  variable: '--font-spectral',
+  variable: '--font-display-src',
   display: 'swap',
 });
 
-// Body/UI: Hanken Grotesk — a clean, highly legible humanist grotesk with
-// just enough character to stay distinctive next to the serif display.
-const hanken = Hanken_Grotesk({
+// Body/UI: Manrope — a clean, modern geometric sans that's highly legible
+// and quietly elegant next to the Garamond display.
+const manrope = Manrope({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-hanken',
+  variable: '--font-body-src',
   display: 'swap',
 });
 
@@ -90,7 +89,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${spectral.variable} ${hanken.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${manrope.variable}`}>
       <body>
         <script
           type="application/ld+json"

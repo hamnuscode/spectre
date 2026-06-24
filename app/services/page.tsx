@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { services } from '@/data/services';
 import { site } from '@/data/site';
-import { PageHero } from '@/components/sections/PageHero';
 import { CtaBand } from '@/components/sections/CtaBand';
 import { ServiceSection } from '@/components/sections/ServiceSection';
+import { Stage3D } from '@/components/three/Stage3D';
 
 export const metadata: Metadata = {
   title: 'Services',
@@ -19,28 +19,38 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <PageHero
-        eyebrow="What We Do"
-        title={
-          <>
-            Services engineered for{' '}
-            <span className="text-gradient">measurable growth.</span>
-          </>
-        }
-        intro="Five disciplines under one roof. Explore each below — what's included, the outcomes you can expect, and where it fits your business."
-      />
+      {/* Hero with 3D accent */}
+      <header className="relative overflow-hidden pt-[calc(var(--nav-h)+3rem)]">
+        <div className="container-x grid items-center gap-10 pb-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="eyebrow mb-5">What We Do</p>
+            <h1 className="text-[clamp(2.4rem,5.6vw,4rem)]">
+              Services engineered for{' '}
+              <span className="text-gradient">measurable growth.</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-[1.08rem] leading-relaxed text-[var(--muted)]">
+              Five disciplines under one roof. Explore each below — what&apos;s
+              included, the outcomes you can expect, and where it fits your
+              business.
+            </p>
+          </div>
+          <div className="flex justify-center lg:justify-end">
+            <Stage3D variant="ico" />
+          </div>
+        </div>
+      </header>
 
       {/* Quick anchor nav */}
       <nav
         aria-label="Services"
-        className="container-x -mt-2 flex flex-wrap gap-2 pb-6"
+        className="container-x flex flex-wrap gap-2 pb-6"
       >
         {services.map((s) => (
           <a
             key={s.slug}
             href={`#${s.slug}`}
             data-cursor="hover"
-            className="prism-border rounded-full px-4 py-2 text-sm text-navy transition-colors hover:text-[var(--cyan)]"
+            className="rounded-full border border-[var(--navy-tint)] px-4 py-2 text-sm text-navy transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
           >
             {s.name}
           </a>

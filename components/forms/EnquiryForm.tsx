@@ -20,12 +20,18 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function EnquiryForm({
   compact = false,
   defaultService = '',
+  serviceValue,
+  onServiceValue,
 }: {
   compact?: boolean;
   defaultService?: string;
+  /** When provided, the service select becomes controlled (for chip pickers). */
+  serviceValue?: string;
+  onServiceValue?: (v: string) => void;
 }) {
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
+  const controlled = serviceValue !== undefined;
 
   function validate(data: FormData): Errors {
     const e: Errors = {};
@@ -155,7 +161,9 @@ export function EnquiryForm({
               <Select
                 id="service"
                 name="service"
-                defaultValue={defaultService}
+                {...(controlled
+                  ? { value: serviceValue, onChange: (e) => onServiceValue?.(e.target.value) }
+                  : { defaultValue: defaultService })}
                 error={!!errors.service}
                 aria-invalid={!!errors.service}
                 aria-describedby="service-err"

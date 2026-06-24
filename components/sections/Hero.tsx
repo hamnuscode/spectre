@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Prism } from '@/components/three/Prism';
+import { Stage3D } from '@/components/three/Stage3D';
 import { Button } from '@/components/ui/Button';
 import { TrustedBy } from './TrustedBy';
 
@@ -75,7 +75,7 @@ export function Hero() {
             className="absolute inset-0 -z-10 m-auto h-3/4 w-3/4 rounded-full opacity-60 blur-3xl"
             style={{ background: 'var(--grad-prism-soft)' }}
           />
-          <Prism />
+          <Stage3D variant="hero" />
         </motion.div>
       </div>
 
