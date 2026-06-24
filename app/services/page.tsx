@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { services } from '@/data/services';
 import { site } from '@/data/site';
-import { CtaBand } from '@/components/sections/CtaBand';
 import { ServiceSection } from '@/components/sections/ServiceSection';
+import { Testimonials } from '@/components/sections/Testimonials';
 import { Stage3D } from '@/components/three/Stage3D';
 
 export const metadata: Metadata = {
@@ -63,7 +63,7 @@ export default function ServicesPage() {
         ))}
       </div>
 
-      <CtaBand />
+      <Testimonials />
     </>
   );
 }

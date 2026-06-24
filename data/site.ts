@@ -22,7 +22,6 @@ export const site = {
 export const nav = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
-  { label: 'Why Spectre', href: '/why-spectre' },
   { label: 'Careers', href: '/careers' },
   { label: 'Contact', href: '/contact' },
 ];

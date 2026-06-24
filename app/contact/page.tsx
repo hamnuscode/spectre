@@ -3,6 +3,9 @@ import { site } from '@/data/site';
 import { serviceBySlug } from '@/data/services';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal } from '@/components/ui/Reveal';
+import { InteractiveRobotSpline } from '@/components/ui/interactive-3d-robot';
+
+const ROBOT_SCENE_URL = 'https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -49,8 +52,15 @@ export default async function ContactPage({
   ];
 
   return (
-    <section className="pt-[calc(var(--nav-h)+3rem)]">
-      <div className="container-x grid gap-12 pb-24 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+    <section className="pt-[calc(var(--nav-h)+1.5rem)]">
+      {/* Interactive Spline robot */}
+      <div className="container-x">
+        <div className="relative h-[300px] w-full overflow-hidden rounded-3xl bg-[var(--navy-deep)] sm:h-[360px]">
+          <InteractiveRobotSpline scene={ROBOT_SCENE_URL} className="absolute inset-0 h-full w-full" />
+        </div>
+      </div>
+
+      <div className="container-x grid gap-12 pb-24 pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         {/* LEFT — details */}
         <div>
           <Reveal>

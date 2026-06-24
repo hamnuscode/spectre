@@ -6,17 +6,26 @@ import { Logo } from '@/components/ui/Logo';
 export function Footer() {
   return (
     <footer className="relative mt-16 bg-ink text-white">
-      {/* Wavy top edge (white wave sitting on the dark footer) */}
+      {/* Wavy top edge — a tiling white wave that gently flows sideways */}
       <div aria-hidden className="relative -mb-px">
         <svg
-          viewBox="0 0 1440 90"
+          viewBox="0 0 2880 90"
           preserveAspectRatio="none"
-          className="block h-[6vw] min-h-[40px] w-full"
+          className="block h-[6vw] min-h-[44px] w-full"
         >
           <path
-            d="M0,40 C240,90 480,0 720,40 C960,80 1200,10 1440,45 L1440,0 L0,0 Z"
+            d="M 0 45 C 240 20 480 70 720 45 C 960 20 1200 70 1440 45 C 1680 20 1920 70 2160 45 C 2400 20 2640 70 2880 45 L 2880 0 L 0 0 Z"
             fill="var(--bg)"
-          />
+          >
+            <animateTransform
+              attributeName="transform"
+              type="translate"
+              from="0 0"
+              to="-1440 0"
+              dur="16s"
+              repeatCount="indefinite"
+            />
+          </path>
         </svg>
       </div>
       <div className="container-x grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">

@@ -67,9 +67,9 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 800; /* clean, bold, tight */
-  letter-spacing: -0.025em;
-  line-height: 1.05;
+  font-weight: 700; /* clean, slightly lighter */
+  letter-spacing: -0.022em;
+  line-height: 1.07;
   color: var(--navy);
 }
 
@@ -103,14 +103,29 @@ a {
   }
 }
 
-/* Animated marching dots for the roadmap base track */
+/* Animated marching dots for the roadmap base track (slow, calm drift) */
 @keyframes dashflow {
   to {
-    stroke-dashoffset: -140;
+    stroke-dashoffset: -120;
   }
 }
 .roadmap-dots {
-  animation: dashflow 2.6s linear infinite;
+  animation: dashflow 9s linear infinite;
+}
+
+/* Gentle pulse ring around the active roadmap node */
+@keyframes roadmappulse {
+  0% {
+    r: 13px;
+    opacity: 0.45;
+  }
+  100% {
+    r: 27px;
+    opacity: 0;
+  }
+}
+.roadmap-pulse {
+  animation: roadmappulse 2.4s ease-out infinite;
 }
 
 /* Highlighted words — solid deep-teal accent (no gradient) */
@@ -194,45 +209,47 @@ a {
 /* ============================================================
    Custom cursor (desktop, pointer:fine only)
    ============================================================ */
-/* New cursor style: a crisp accent dot trailed by a fine bracket-corner
-   frame that rotates slightly and snaps to a square-ish focus on hover —
-   technical/engineering feel, clean on the light theme (no blend mode). */
+/* Cursor: a soft accent dot with a smooth trailing outline ring that grows
+   and fills faintly over interactive elements. Round, minimal, no blend. */
 .cursor-dot,
 .cursor-ring {
   position: fixed;
   top: 0;
   left: 0;
+  border-radius: 9999px;
   pointer-events: none;
   z-index: 9999;
   will-change: transform;
 }
 .cursor-dot {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  border-radius: 9999px;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
   background: var(--accent);
-  transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+  transition: width 0.2s var(--ease-out), height 0.2s var(--ease-out),
+    margin 0.2s var(--ease-out), background 0.2s var(--ease-out);
 }
 .cursor-ring {
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
-  border-radius: 10px;
-  border: 1.5px solid color-mix(in srgb, var(--navy) 45%, transparent);
-  transform-origin: center;
-  transition: width 0.25s var(--ease-out), height 0.25s var(--ease-out),
-    margin 0.25s var(--ease-out), border-color 0.25s var(--ease-out),
-    border-radius 0.25s var(--ease-out);
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: transparent;
+  transition: width 0.28s var(--ease-out), height 0.28s var(--ease-out),
+    margin 0.28s var(--ease-out), background 0.28s var(--ease-out),
+    border-color 0.28s var(--ease-out);
 }
 .cursor-ring.is-hover {
-  width: 52px;
-  height: 52px;
-  margin: -26px 0 0 -26px;
-  border-radius: 14px;
+  width: 50px;
+  height: 50px;
+  margin: -25px 0 0 -25px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   border-color: var(--accent);
 }
 .cursor-dot.is-hover {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
   background: var(--green);
 }
 @media (hover: none), (pointer: coarse) {

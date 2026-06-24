@@ -158,7 +158,10 @@ export function ProcessRoadmap() {
                   <circle cx={n.x} cy={n.y} r={11} fill="#ffffff" data-ring stroke="var(--navy-tint)" strokeWidth={1.5} />
                   <circle cx={n.x} cy={n.y} r={0} fill="var(--accent)" data-dot style={{ transition: 'r .35s ease' }} />
                   {i === active && (
-                    <circle cx={n.x} cy={n.y} r={18} fill="none" stroke="var(--accent)" strokeWidth={1} opacity={0.4} />
+                    <>
+                      <circle className="roadmap-pulse" cx={n.x} cy={n.y} r={13} fill="none" stroke="var(--accent)" strokeWidth={1.5} />
+                      <circle cx={n.x} cy={n.y} r={18} fill="none" stroke="var(--accent)" strokeWidth={1} opacity={0.35} />
+                    </>
                   )}
                   <text
                     data-label
