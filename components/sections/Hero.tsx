@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { SplineScene } from '@/components/ui/SplineScene';
 import { BackgroundPaths } from '@/components/ui/BackgroundPaths';
-import { CountUp } from '@/components/ui/CountUp';
 import { clients } from '@/data/site';
 
 // Robot scene ported from the Greply project hero.
@@ -28,7 +27,6 @@ export function Hero() {
     offset: ['start start', 'end start'],
   });
   const yRobot = useTransform(scrollYProgress, [0, 1], [0, -24]);
-  const yStats = useTransform(scrollYProgress, [0, 1], [0, -56]);
 
   return (
     <section
@@ -72,62 +70,20 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — robot + stats glass cards */}
+          {/* RIGHT — large robot */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
-            className="space-y-6 lg:col-span-6"
+            className="lg:col-span-6"
           >
             {/* Robot in a glassmorphic box — canvas over-sized downward so the
                 Spline watermark is cropped out by the box's overflow clip. */}
             <motion.div
               style={{ y: yRobot }}
-              className="glass relative h-[320px] overflow-hidden rounded-3xl shadow-[0_40px_90px_-50px_rgba(7,48,109,0.55)] sm:h-[360px]"
+              className="glass relative h-[440px] overflow-hidden rounded-3xl shadow-[0_50px_110px_-50px_rgba(7,48,109,0.55)] sm:h-[540px] lg:h-[600px]"
             >
-              <SplineScene scene={ROBOT_SCENE_URL} className="absolute inset-x-0 top-0 h-[calc(100%+80px)] w-full" />
-            </motion.div>
-
-            {/* Stats glass card */}
-            <motion.div style={{ y: yStats }} className="relative overflow-hidden rounded-3xl border border-white/55 bg-white/50 p-7 shadow-[0_30px_70px_-45px_rgba(7,48,109,0.5)] backdrop-blur-2xl">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-3xl font-bold tracking-tight text-navy">
-                    <CountUp to={25} suffix="+" />
-                  </div>
-                  <div className="text-sm text-[var(--muted)]">Global Clients</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold tracking-tight text-navy">
-                    <CountUp to={98} suffix="%" />
-                  </div>
-                  <div className="text-sm text-[var(--muted)]">Satisfaction</div>
-                </div>
-              </div>
-              <div className="mt-5 h-2 w-full overflow-hidden rounded-full bg-[var(--navy-tint)]">
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ background: 'linear-gradient(90deg, var(--cyan), var(--green))' }}
-                  initial={{ width: 0 }}
-                  whileInView={{ width: '98%' }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                />
-              </div>
-              <div className="mt-6 grid grid-cols-3 gap-2 border-t border-[var(--navy-tint)] pt-5 text-center">
-                {[
-                  { to: 3, suffix: '+', v: '', l: 'Years' },
-                  { to: 0, suffix: '', v: '24/7', l: 'Support' },
-                  { to: 5, suffix: '', v: '', l: 'Disciplines' },
-                ].map((s) => (
-                  <div key={s.l}>
-                    <div className="text-xl font-bold text-navy">
-                      {s.v ? s.v : <CountUp to={s.to} suffix={s.suffix} />}
-                    </div>
-                    <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]/70">{s.l}</div>
-                  </div>
-                ))}
-              </div>
+              <SplineScene scene={ROBOT_SCENE_URL} className="absolute inset-x-0 top-0 h-[calc(100%+90px)] w-full" />
             </motion.div>
           </motion.div>
         </div>
