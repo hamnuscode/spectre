@@ -43,8 +43,8 @@ export function Navbar() {
         <div className="container-x">
           <div
             className={cn(
-              'group/logo glass flex items-center justify-between rounded-full shadow-[0_10px_30px_-18px_rgba(7,48,109,0.5)] transition-all duration-500 ease-out',
-              scrolled ? 'px-4 py-2' : 'px-4 py-3'
+              'group/logo glass mx-auto flex items-center justify-between rounded-full shadow-[0_10px_30px_-18px_rgba(7,48,109,0.5)] transition-all duration-500 ease-out',
+              scrolled ? 'max-w-3xl px-4 py-2' : 'max-w-none px-4 py-3'
             )}
           >
             <Logo />
