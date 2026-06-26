@@ -13,6 +13,8 @@ const scenes = {
   hero: dynamic(() => import('./HeroScene'), { ssr: false, loading: () => <Fallback /> }),
   ico: dynamic(() => import('./IcoScene'), { ssr: false, loading: () => <Fallback /> }),
   knot: dynamic(() => import('./KnotScene'), { ssr: false, loading: () => <Fallback /> }),
+  cubes: dynamic(() => import('./CubesScene'), { ssr: false, loading: () => <Fallback /> }),
+  earth: dynamic(() => import('./EarthScene'), { ssr: false, loading: () => <Fallback /> }),
 };
 
 function Fallback() {

@@ -3,7 +3,7 @@ import { site } from '@/data/site';
 import { serviceBySlug } from '@/data/services';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { Globe } from '@/components/ui/Globe';
+import { Stage3D } from '@/components/three/Stage3D';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -55,7 +55,7 @@ export default async function ContactPage({
       <div className="container-x">
         <div className="relative flex h-[300px] w-full items-center justify-center overflow-hidden rounded-3xl bg-[var(--navy-deep)] sm:h-[360px]">
           <div className="h-[260px] w-[260px] sm:h-[320px] sm:w-[320px]">
-            <Globe />
+            <Stage3D variant="earth" className="h-full w-full" />
           </div>
         </div>
       </div>
