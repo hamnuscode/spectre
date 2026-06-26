@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { services } from '@/data/services';
 import { CareersForm } from '@/components/forms/CareersForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { GeometricShapes } from '@/components/ui/GeometricShapes';
+import { Stage3D } from '@/components/three/Stage3D';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -34,7 +34,7 @@ export default function CareersPage() {
                   'radial-gradient(60% 60% at 50% 30%, rgba(39,183,207,0.18), transparent 70%), radial-gradient(55% 55% at 75% 85%, rgba(43,215,127,0.16), transparent 70%)',
               }}
             >
-              <GeometricShapes opacity={0.7} />
+              <Stage3D variant="cubes" className="h-full w-full" />
             </div>
           </div>
         </div>

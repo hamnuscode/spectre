@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { process as steps } from '@/data/site';
 import { SectionHeader } from '@/components/ui/SectionHeader';
+import { Stage3D } from '@/components/three/Stage3D';
 
 /* ---- Wave geometry (viewBox units) ---------------------------------- */
 const N = steps.length;
@@ -101,6 +102,10 @@ export function ProcessRoadmap() {
     // Tall wrapper defines the pinned scroll distance.
     <section ref={wrapRef} className="relative h-[180vh] bg-offwhite">
       <div className="sticky top-0 flex min-h-screen flex-col justify-center py-10">
+        {/* Decorative animated CPU — sits to the upper-right of the section */}
+        <div className="absolute right-[4%] top-[10%] hidden h-40 w-40 lg:block xl:h-52 xl:w-52">
+          <Stage3D variant="cpu" className="h-full w-full" />
+        </div>
         <div className="container-x">
           <SectionHeader
             eyebrow="// How We Work"

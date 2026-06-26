@@ -50,7 +50,7 @@ export function Navbar() {
             <Logo />
 
             {/* Desktop nav */}
-            <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+            <nav className="hidden flex-1 items-center justify-center gap-1 lg:flex" aria-label="Primary">
               {nav.map((item) => {
                 const active =
                   item.href === '/'

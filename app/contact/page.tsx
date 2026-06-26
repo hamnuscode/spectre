@@ -3,7 +3,7 @@ import { site } from '@/data/site';
 import { serviceBySlug } from '@/data/services';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { GeometricShapes } from '@/components/ui/GeometricShapes';
+import { Stage3D } from '@/components/three/Stage3D';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -16,12 +16,6 @@ const mailIcon = (
   <>
     <rect x="3" y="5" width="18" height="14" rx="2" />
     <path d="m4 7 8 6 8-6" />
-  </>
-);
-const globeIcon = (
-  <>
-    <circle cx="12" cy="12" r="9" />
-    <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" />
   </>
 );
 const pinIcon = (
@@ -44,14 +38,13 @@ export default async function ContactPage({
     { icon: phoneIcon, label: 'Phone', value: site.phones[0], href: `tel:${site.phones[0].replace(/[^+\d]/g, '')}` },
     { icon: phoneIcon, label: 'Alt. phone', value: site.phones[1], href: `tel:${site.phones[1].replace(/[^+\d]/g, '')}` },
     { icon: mailIcon, label: 'Email', value: site.email, href: `mailto:${site.email}` },
-    { icon: globeIcon, label: 'Website', value: site.domain, href: site.url },
     { icon: pinIcon, label: 'Coverage', value: 'Global · Remote-first' },
     { icon: clockIcon, label: 'Response time', value: 'Within 1 business day' },
   ];
 
   return (
     <section className="pt-[calc(var(--nav-h)+1.5rem)]">
-      {/* Animated geometric banner */}
+      {/* Animated 3D banner */}
       <div className="container-x">
         <div
           className="glass relative flex h-[240px] w-full items-center justify-center overflow-hidden rounded-3xl shadow-[0_40px_90px_-50px_rgba(7,48,109,0.5)] sm:h-[300px]"
@@ -60,7 +53,9 @@ export default async function ContactPage({
               'radial-gradient(50% 70% at 30% 30%, rgba(39,183,207,0.20), transparent 70%), radial-gradient(50% 70% at 75% 80%, rgba(43,215,127,0.18), transparent 70%), radial-gradient(60% 60% at 50% 0%, rgba(7,48,109,0.10), transparent 70%)',
           }}
         >
-          <GeometricShapes opacity={0.65} />
+          <div className="h-full w-[280px]">
+            <Stage3D variant="cpu" className="h-full w-full" />
+          </div>
         </div>
       </div>
 
@@ -110,26 +105,6 @@ export default async function ContactPage({
             })}
           </div>
 
-          <Reveal delay={120}>
-            <div className="mt-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">Follow us</p>
-              <div className="mt-3 flex gap-3">
-                {site.socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-cursor="hover"
-                    aria-label={s.label}
-                    className="grid h-11 w-11 place-items-center rounded-xl border border-[var(--navy-tint)] text-navy transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
-                  >
-                    {s.label[0]}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </Reveal>
         </div>
 
         {/* RIGHT — form */}

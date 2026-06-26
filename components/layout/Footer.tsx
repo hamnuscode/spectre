@@ -64,20 +64,6 @@ export function Footer() {
               {p}
             </FooterLink>
           ))}
-          <div className="mt-4 flex gap-4">
-            {site.socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-cursor="hover"
-                className="link-underline text-xs uppercase tracking-widest text-white/85 transition-colors hover:text-[var(--green)]"
-              >
-                {s.label.split(' ')[0]}
-              </a>
-            ))}
-          </div>
         </FooterCol>
       </div>
 

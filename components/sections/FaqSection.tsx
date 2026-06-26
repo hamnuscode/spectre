@@ -15,26 +15,28 @@ export function FaqSection() {
   };
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="pb-20 pt-2 lg:pb-28 lg:pt-4">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="container-x">
-        <SectionHeader
-          eyebrow="FAQ"
-          title={
-            <>
-              Frequently asked{' '}
-              <span className="text-gradient">questions.</span>
-            </>
-          }
-          intro="Everything you might want to know before reaching out."
-          align="center"
-        />
-      </div>
-      <div className="mt-12">
-        <FaqAccordion />
+        <div className="rounded-3xl border border-[var(--navy-tint)] bg-white/55 py-12 shadow-[0_30px_70px_-50px_rgba(7,48,109,0.4)] backdrop-blur-sm md:py-14">
+          <SectionHeader
+            eyebrow="FAQ"
+            title={
+              <>
+                Frequently asked{' '}
+                <span className="text-gradient">questions.</span>
+              </>
+            }
+            intro="Everything you might want to know before reaching out."
+            align="center"
+          />
+          <div className="mt-10">
+            <FaqAccordion />
+          </div>
+        </div>
       </div>
     </section>
   );

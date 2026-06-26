@@ -1,9 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { whySpectre } from '@/data/site';
 import { Reveal } from '@/components/ui/Reveal';
 import { Stagger, StaggerItem } from '@/components/ui/Stagger';
-import { TiltCard } from '@/components/ui/TiltCard';
 import { EnquiryForm } from '@/components/forms/EnquiryForm';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 
@@ -32,25 +32,42 @@ export function WhyEnquiry() {
         align="center"
       />
 
-      {/* Cards — 3 in a row, staggered in with tilt */}
+      {/* Cards — 3 in a row, staggered in; hover lifts with accent bar + reveal */}
       <Stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {whySpectre.map((w, i) => (
           <StaggerItem key={w.title} className="h-full">
-            <TiltCard glow="cyan" className="h-full">
-              <div className="group h-full rounded-2xl border border-[var(--navy-tint)] bg-white/80 p-6 backdrop-blur-sm transition-colors duration-300 hover:border-[var(--accent)]">
-                <span
-                  aria-hidden
-                  className="mb-4 grid h-10 w-10 place-items-center rounded-xl"
-                  style={{ background: 'color-mix(in srgb, var(--accent) 12%, white)', color: 'var(--accent)' }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    {icons[i % icons.length]}
-                  </svg>
-                </span>
-                <h3 className="text-base">{w.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{w.body}</p>
-              </div>
-            </TiltCard>
+            <Link
+              href="/services"
+              data-cursor="hover"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--navy-tint)] bg-white p-6 shadow-[0_12px_30px_-22px_rgba(7,48,109,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:border-transparent hover:shadow-[0_34px_70px_-32px_rgba(7,48,109,0.4)]"
+            >
+              {/* accent left bar — reveals on hover */}
+              <span
+                aria-hidden
+                className="absolute left-0 top-0 h-full w-[3px] origin-top scale-y-0 bg-[var(--accent)] transition-transform duration-300 group-hover:scale-y-100"
+              />
+              {/* number index */}
+              <span className="absolute right-5 top-5 font-display text-sm font-semibold text-[var(--muted)]/35 transition-colors duration-300 group-hover:text-[var(--accent)]/50">
+                0{i + 1}
+              </span>
+              {/* icon */}
+              <span
+                aria-hidden
+                className="mb-5 grid h-11 w-11 place-items-center rounded-xl transition-colors duration-300"
+                style={{ background: 'color-mix(in srgb, var(--accent) 12%, white)', color: 'var(--accent)' }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  {icons[i % icons.length]}
+                </svg>
+              </span>
+              <h3 className="text-base transition-colors duration-300 group-hover:text-[var(--accent)]">{w.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{w.body}</p>
+              {/* learn more — space reserved, reveals on hover */}
+              <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] opacity-0 transition-all duration-300 group-hover:opacity-100">
+                Learn more
+                <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
+            </Link>
           </StaggerItem>
         ))}
       </Stagger>

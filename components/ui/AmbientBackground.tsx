@@ -1,10 +1,8 @@
-import { GeometricShapes } from './GeometricShapes';
-
 /**
  * Ambient background — site-wide, subtle, alive. A barely-there line grid
- * slowly pans while themed gradient blobs drift and geometric shapes morph
- * behind it. Everything is GPU-composited, neutralised by the global
- * reduced-motion rule, and fixed behind all content at z -10.
+ * slowly pans while themed gradient blobs drift behind it. Everything is
+ * GPU-composited, neutralised by the global reduced-motion rule, and fixed
+ * behind all content at z -10.
  */
 export function AmbientBackground() {
   return (
@@ -48,9 +46,6 @@ export function AmbientBackground() {
         className="absolute bottom-[6%] right-[8%] h-[36vmax] w-[36vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.12),transparent_65%)] blur-3xl animate-drift"
         style={{ animationDelay: '-22s', animationDuration: '38s' }}
       />
-
-      {/* morphing geometric shapes, very subtle site-wide */}
-      <GeometricShapes opacity={0.22} />
     </div>
   );
 }
