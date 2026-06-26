@@ -2,6 +2,8 @@
 
 import { whySpectre } from '@/data/site';
 import { Reveal } from '@/components/ui/Reveal';
+import { Stagger, StaggerItem } from '@/components/ui/Stagger';
+import { TiltCard } from '@/components/ui/TiltCard';
 import { EnquiryForm } from '@/components/forms/EnquiryForm';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 
@@ -30,30 +32,32 @@ export function WhyEnquiry() {
         align="center"
       />
 
-      {/* Cards — 3 in a row */}
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Cards — 3 in a row, staggered in with tilt */}
+      <Stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {whySpectre.map((w, i) => (
-          <Reveal key={w.title} delay={i * 60}>
-            <div className="group h-full rounded-2xl border border-[var(--navy-tint)] bg-white/70 p-6 transition-colors duration-300 hover:border-[var(--accent)]">
-              <span
-                aria-hidden
-                className="mb-4 grid h-10 w-10 place-items-center rounded-xl"
-                style={{ background: 'color-mix(in srgb, var(--accent) 12%, white)', color: 'var(--accent)' }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                  {icons[i % icons.length]}
-                </svg>
-              </span>
-              <h3 className="text-base">{w.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{w.body}</p>
-            </div>
-          </Reveal>
+          <StaggerItem key={w.title} className="h-full">
+            <TiltCard glow="cyan" className="h-full">
+              <div className="group h-full rounded-2xl border border-[var(--navy-tint)] bg-white/80 p-6 backdrop-blur-sm transition-colors duration-300 hover:border-[var(--accent)]">
+                <span
+                  aria-hidden
+                  className="mb-4 grid h-10 w-10 place-items-center rounded-xl"
+                  style={{ background: 'color-mix(in srgb, var(--accent) 12%, white)', color: 'var(--accent)' }}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    {icons[i % icons.length]}
+                  </svg>
+                </span>
+                <h3 className="text-base">{w.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{w.body}</p>
+              </div>
+            </TiltCard>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
       {/* Form — centered under the cards */}
       <Reveal delay={80}>
-        <div className="mx-auto mt-12 max-w-2xl rounded-3xl border border-[var(--navy-tint)] bg-white/90 p-7 shadow-[0_30px_70px_-40px_rgba(7,48,109,0.5)] backdrop-blur-md md:p-9">
+        <div className="mx-auto mt-12 max-w-2xl rounded-3xl border border-[var(--navy-tint)] bg-white/90 p-7 shadow-[0_40px_90px_-45px_rgba(7,48,109,0.55)] backdrop-blur-md transition-all duration-500 focus-within:-translate-y-1 focus-within:border-[var(--cyan)]/60 focus-within:shadow-[0_50px_110px_-35px_rgba(39,183,207,0.45)] md:p-9">
           <div className="mb-7 flex items-center gap-4">
             <span aria-hidden className="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-white">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

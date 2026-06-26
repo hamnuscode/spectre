@@ -1,8 +1,10 @@
+import { GeometricShapes } from './GeometricShapes';
+
 /**
  * Ambient background — site-wide, subtle, alive. A barely-there line grid
- * slowly pans while soft themed gradient blobs drift behind it. Everything is
- * GPU-composited (transform only), neutralised by the global reduced-motion
- * rule, and fixed behind all content at z -10.
+ * slowly pans while themed gradient blobs drift and geometric shapes morph
+ * behind it. Everything is GPU-composited, neutralised by the global
+ * reduced-motion rule, and fixed behind all content at z -10.
  */
 export function AmbientBackground() {
   return (
@@ -32,20 +34,23 @@ export function AmbientBackground() {
         }}
       />
 
-      {/* soft drifting themed gradient blobs */}
-      <span className="absolute -left-[12%] -top-[10%] h-[52vmax] w-[52vmax] rounded-full bg-[radial-gradient(circle,rgba(7,48,109,0.10),transparent_65%)] blur-3xl animate-drift" />
+      {/* soft drifting themed gradient blobs — more present */}
+      <span className="absolute -left-[12%] -top-[10%] h-[52vmax] w-[52vmax] rounded-full bg-[radial-gradient(circle,rgba(7,48,109,0.16),transparent_65%)] blur-3xl animate-drift" />
       <span
-        className="absolute right-[-14%] top-[18%] h-[46vmax] w-[46vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.10),transparent_65%)] blur-3xl animate-drift"
+        className="absolute right-[-14%] top-[18%] h-[46vmax] w-[46vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.18),transparent_65%)] blur-3xl animate-drift"
         style={{ animationDelay: '-9s', animationDuration: '30s' }}
       />
       <span
-        className="absolute bottom-[-18%] left-[28%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgba(43,215,127,0.09),transparent_65%)] blur-3xl animate-drift"
+        className="absolute bottom-[-18%] left-[28%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgba(43,215,127,0.16),transparent_65%)] blur-3xl animate-drift"
         style={{ animationDelay: '-16s', animationDuration: '34s' }}
       />
       <span
-        className="absolute bottom-[6%] right-[8%] h-[36vmax] w-[36vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.07),transparent_65%)] blur-3xl animate-drift"
+        className="absolute bottom-[6%] right-[8%] h-[36vmax] w-[36vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.12),transparent_65%)] blur-3xl animate-drift"
         style={{ animationDelay: '-22s', animationDuration: '38s' }}
       />
+
+      {/* morphing geometric shapes, very subtle site-wide */}
+      <GeometricShapes opacity={0.22} />
     </div>
   );
 }

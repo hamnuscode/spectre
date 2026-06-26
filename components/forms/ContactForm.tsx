@@ -82,7 +82,7 @@ export function ContactForm({ initialService = '' }: { initialService?: string }
   }
 
   return (
-    <div className="rounded-3xl border border-[var(--navy-tint)] bg-white/90 p-7 shadow-[0_30px_70px_-40px_rgba(7,48,109,0.5)] backdrop-blur-md md:p-9">
+    <div className="rounded-3xl border border-[var(--navy-tint)] bg-white/90 p-7 shadow-[0_40px_90px_-45px_rgba(7,48,109,0.55)] backdrop-blur-md transition-all duration-500 focus-within:-translate-y-1 focus-within:border-[var(--cyan)]/60 focus-within:shadow-[0_50px_110px_-35px_rgba(39,183,207,0.45)] md:p-9">
       {/* Header */}
       <div className="mb-8 flex items-center gap-4">
         <span aria-hidden className="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-white">

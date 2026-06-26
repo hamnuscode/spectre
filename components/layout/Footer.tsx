@@ -72,7 +72,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor="hover"
-                className="text-xs uppercase tracking-widest text-white/85 transition-colors hover:text-[var(--green)]"
+                className="link-underline text-xs uppercase tracking-widest text-white/85 transition-colors hover:text-[var(--green)]"
               >
                 {s.label.split(' ')[0]}
               </a>
@@ -122,7 +122,7 @@ function FooterLink({
       <Link
         href={href}
         data-cursor="hover"
-        className="text-sm text-white/80 transition-colors duration-300 hover:text-[var(--green)]"
+        className="link-underline inline-block text-sm text-white/80 transition-colors duration-300 hover:text-[var(--green)]"
       >
         {children}
       </Link>

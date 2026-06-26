@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { services } from '@/data/services';
 import { CareersForm } from '@/components/forms/CareersForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { Globe } from '@/components/ui/Globe';
+import { GeometricShapes } from '@/components/ui/GeometricShapes';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -27,8 +27,14 @@ export default function CareersPage() {
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">
-            <div className="w-full max-w-[440px]">
-              <Globe />
+            <div
+              className="glass relative aspect-square w-full max-w-[440px] overflow-hidden rounded-3xl shadow-[0_40px_90px_-50px_rgba(7,48,109,0.5)]"
+              style={{
+                background:
+                  'radial-gradient(60% 60% at 50% 30%, rgba(39,183,207,0.18), transparent 70%), radial-gradient(55% 55% at 75% 85%, rgba(43,215,127,0.16), transparent 70%)',
+              }}
+            >
+              <GeometricShapes opacity={0.7} />
             </div>
           </div>
         </div>
@@ -61,7 +67,7 @@ export default function CareersPage() {
           </div>
 
           <Reveal>
-            <div className="rounded-3xl border border-[var(--navy-tint)] bg-white/80 p-7 backdrop-blur-md md:p-9">
+            <div className="rounded-3xl border border-[var(--navy-tint)] bg-white/90 p-7 shadow-[0_40px_90px_-45px_rgba(7,48,109,0.55)] backdrop-blur-md transition-all duration-500 focus-within:-translate-y-1 focus-within:border-[var(--cyan)]/60 focus-within:shadow-[0_50px_110px_-35px_rgba(39,183,207,0.45)] md:p-9">
               <CareersForm roles={services.map((s) => s.name)} />
             </div>
           </Reveal>

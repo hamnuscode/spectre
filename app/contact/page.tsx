@@ -3,7 +3,7 @@ import { site } from '@/data/site';
 import { serviceBySlug } from '@/data/services';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { Stage3D } from '@/components/three/Stage3D';
+import { GeometricShapes } from '@/components/ui/GeometricShapes';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -51,12 +51,16 @@ export default async function ContactPage({
 
   return (
     <section className="pt-[calc(var(--nav-h)+1.5rem)]">
-      {/* Interactive globe */}
+      {/* Animated geometric banner */}
       <div className="container-x">
-        <div className="relative flex h-[300px] w-full items-center justify-center overflow-hidden rounded-3xl bg-[var(--navy-deep)] sm:h-[360px]">
-          <div className="h-[260px] w-[260px] sm:h-[320px] sm:w-[320px]">
-            <Stage3D variant="earth" className="h-full w-full" />
-          </div>
+        <div
+          className="glass relative flex h-[240px] w-full items-center justify-center overflow-hidden rounded-3xl shadow-[0_40px_90px_-50px_rgba(7,48,109,0.5)] sm:h-[300px]"
+          style={{
+            background:
+              'radial-gradient(50% 70% at 30% 30%, rgba(39,183,207,0.20), transparent 70%), radial-gradient(50% 70% at 75% 80%, rgba(43,215,127,0.18), transparent 70%), radial-gradient(60% 60% at 50% 0%, rgba(7,48,109,0.10), transparent 70%)',
+          }}
+        >
+          <GeometricShapes opacity={0.65} />
         </div>
       </div>
 

@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 
 const fieldBase =
-  'w-full rounded-xl border border-[var(--navy-tint)] bg-white/70 px-4 py-3 text-sm text-ink outline-none transition-all duration-200 placeholder:text-[var(--muted)]/60 focus:border-[var(--cyan)] focus:ring-2 focus:ring-[var(--cyan)]/25';
+  'w-full rounded-xl border border-[var(--navy-tint)] bg-white/70 px-4 py-3 text-sm text-ink outline-none transition-all duration-200 placeholder:text-[var(--muted)]/60 hover:border-[var(--cyan)]/50 focus:border-[var(--cyan)] focus:ring-2 focus:ring-[var(--cyan)]/25 focus:bg-white focus:shadow-[0_10px_30px_-14px_rgba(39,183,207,0.6)]';
 
 export function Label({
   htmlFor,

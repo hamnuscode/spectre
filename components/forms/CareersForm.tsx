@@ -172,7 +172,7 @@ export function CareersForm({ roles }: { roles: string[] }) {
             {fileName || 'Click to upload your CV…'}
           </span>
           <span
-            className="shrink-0 rounded-full px-3 py-1.5 text-xs font-medium text-white"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-white"
             style={{ background: 'var(--grad-prism)' }}
           >
             Browse

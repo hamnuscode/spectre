@@ -78,9 +78,9 @@ export function ThemedSelect({
         data-cursor="hover"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          'flex w-full items-center justify-between rounded-xl border bg-white/70 px-4 py-3 text-left text-sm outline-none transition-all duration-200',
+          'flex w-full items-center justify-between rounded-xl border bg-white/70 px-4 py-3 text-left text-sm outline-none transition-all duration-200 hover:border-[var(--cyan)]/50',
           error ? 'border-[#c2334d]' : 'border-[var(--navy-tint)]',
-          open && 'border-[var(--accent)] ring-2 ring-[var(--accent)]/20'
+          open && 'border-[var(--accent)] bg-white ring-2 ring-[var(--accent)]/20 shadow-[0_10px_30px_-14px_rgba(39,183,207,0.6)]'
         )}
       >
         <span className={selected ? 'text-ink' : 'text-[var(--muted)]/70'}>

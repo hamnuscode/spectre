@@ -6,6 +6,7 @@ import { CustomCursor } from '@/components/ui/CustomCursor';
 import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { PageTransition } from '@/components/ui/PageTransition';
 
 // Display: Sora — a clean geometric sans for bold, tight headings.
 const sora = Sora({
@@ -101,7 +102,9 @@ export default function RootLayout({
         <AmbientBackground />
         <CustomCursor />
         <Navbar />
-        <main id="main">{children}</main>
+        <main id="main">
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
       </body>
     </html>

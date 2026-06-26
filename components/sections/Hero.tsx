@@ -1,12 +1,13 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
-import { InteractiveRobotSpline } from '@/components/ui/interactive-3d-robot';
+import { Stage3D } from '@/components/three/Stage3D';
 import { BackgroundPaths } from '@/components/ui/BackgroundPaths';
+import { GeometricShapes } from '@/components/ui/GeometricShapes';
+import { CountUp } from '@/components/ui/CountUp';
 import { clients } from '@/data/site';
-
-const ROBOT_SCENE_URL = 'https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode';
 
 const container = {
   hidden: { opacity: 0 },
@@ -19,37 +20,59 @@ const item = {
 
 export function Hero() {
   const track = [...clients, ...clients];
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const yRobot = useTransform(scrollYProgress, [0, 1], [0, -24]);
+  const yStats = useTransform(scrollYProgress, [0, 1], [0, -56]);
+
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-[var(--navy-deep)] text-white">
+    <section
+      ref={sectionRef}
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-offwhite text-ink"
+    >
+      {/* Visible brand gradient washes */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(60% 60% at 82% 18%, rgba(39,183,207,0.22), transparent 70%), radial-gradient(55% 55% at 8% 92%, rgba(43,215,127,0.18), transparent 72%), radial-gradient(50% 50% at 50% 0%, rgba(7,48,109,0.10), transparent 70%)',
+        }}
+      />
       {/* Animated floating background paths */}
-      <BackgroundPaths tone="dark" />
+      <BackgroundPaths tone="light" />
+      {/* Morphing geometric shapes */}
+      <GeometricShapes opacity={0.4} />
 
       <div className="container-x relative z-10 grid w-full items-center gap-10 pb-12 pt-[calc(var(--nav-h)+2rem)] lg:grid-cols-12 lg:gap-8">
         {/* LEFT — content */}
         <motion.div variants={container} initial="hidden" animate="show" className="lg:col-span-6">
-          <motion.p variants={item} className="mb-5 text-xs font-semibold uppercase tracking-[0.26em] text-[var(--green)]">
+          <motion.p variants={item} className="mb-5 text-xs font-semibold uppercase tracking-[0.26em] text-[var(--accent)]">
             Tech · Web · Marketing · Finance · People
           </motion.p>
-          <motion.h1 variants={item} className="text-white text-[clamp(2.6rem,6.5vw,4.8rem)] leading-[1.02]">
-            We help brands <span className="text-[var(--green)]">stand out</span> in the digital age.
+          <motion.h1 variants={item} className="text-[clamp(2.6rem,6.5vw,4.8rem)] leading-[1.02]">
+            We help brands <span className="text-gradient">stand out</span> in the digital age.
           </motion.h1>
-          <motion.p variants={item} className="mt-6 max-w-xl text-[1.1rem] leading-relaxed text-white/65">
+          <motion.p variants={item} className="mt-6 max-w-xl text-[1.1rem] leading-relaxed text-[var(--muted)]">
             Spectre partners with the fastest-growing global brands — uniting
             tech support, web development, marketing, accounting and HR under one
             roof, engineered for measurable growth.
           </motion.p>
           <motion.div variants={item} className="mt-9 flex flex-wrap gap-3">
-            <Button href="/contact" variant="primary" className="!bg-white !text-navy hover:!bg-white/90">
+            <Button href="/contact" variant="primary">
               Get a Quote
             </Button>
-            <Button href="/services" className="!border-white/20 !bg-white/5 !text-white backdrop-blur-sm hover:!bg-white/10">
+            <Button href="/services" variant="secondary">
               Explore Services
             </Button>
           </motion.div>
 
           {/* Trust marquee */}
           <motion.div variants={item} className="mt-12">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/40">
+            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--muted)]/60">
               Trusted by industry leaders
             </p>
             <div
@@ -61,7 +84,7 @@ export function Hero() {
             >
               <div className="flex shrink-0 animate-marquee items-center gap-10 pr-10" style={{ ['--marquee-duration' as string]: '34s' }}>
                 {track.map((name, i) => (
-                  <span key={i} className="whitespace-nowrap text-base font-bold tracking-tight text-white/35">
+                  <span key={i} className="whitespace-nowrap text-base font-bold tracking-tight text-navy/35">
                     {name}
                   </span>
                 ))}
@@ -70,52 +93,67 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT — robot + stats glass cards */}
+        {/* RIGHT — CPU + stats glass cards */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
           className="space-y-6 lg:col-span-6"
         >
-          {/* Robot in glassmorphic box — canvas is over-sized downward so the
-              Spline watermark is cropped out by the box's overflow clip. */}
-          <div className="relative h-[320px] overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl sm:h-[360px]">
-            <InteractiveRobotSpline scene={ROBOT_SCENE_URL} className="absolute inset-x-0 top-0 h-[calc(100%+80px)] w-full" />
-          </div>
+          {/* CPU in a glass box */}
+          <motion.div
+            style={{ y: yRobot }}
+            className="glass relative grid h-[320px] place-items-center overflow-hidden rounded-3xl shadow-[0_40px_90px_-50px_rgba(7,48,109,0.55)] sm:h-[360px]"
+          >
+            <div className="absolute inset-0 opacity-70">
+              <GeometricShapes opacity={0.35} />
+            </div>
+            <div className="relative h-full w-full">
+              <Stage3D variant="cpu" className="h-full w-full" />
+            </div>
+          </motion.div>
 
           {/* Stats card */}
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl">
+          <motion.div style={{ y: yStats }} className="glass rounded-3xl p-7 shadow-[0_30px_70px_-45px_rgba(7,48,109,0.5)]">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-3xl font-bold tracking-tight text-white">25+</div>
-                <div className="text-sm text-white/55">Global Clients</div>
+                <div className="text-3xl font-bold tracking-tight text-navy">
+                  <CountUp to={25} suffix="+" />
+                </div>
+                <div className="text-sm text-[var(--muted)]">Global Clients</div>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold tracking-tight text-white">98%</div>
-                <div className="text-sm text-white/55">Satisfaction</div>
+                <div className="text-3xl font-bold tracking-tight text-navy">
+                  <CountUp to={98} suffix="%" />
+                </div>
+                <div className="text-sm text-[var(--muted)]">Satisfaction</div>
               </div>
             </div>
-            <div className="mt-5 h-2 w-full overflow-hidden rounded-full bg-white/10">
+            <div className="mt-5 h-2 w-full overflow-hidden rounded-full bg-[var(--navy-tint)]">
               <motion.div
-                className="h-full rounded-full bg-[var(--green)]"
+                className="h-full rounded-full"
+                style={{ background: 'linear-gradient(90deg, var(--cyan), var(--green))' }}
                 initial={{ width: 0 }}
-                animate={{ width: '98%' }}
-                transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+                whileInView={{ width: '98%' }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
               />
             </div>
-            <div className="mt-6 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 text-center">
+            <div className="mt-6 grid grid-cols-3 gap-2 border-t border-[var(--navy-tint)] pt-5 text-center">
               {[
-                ['3+', 'Years'],
-                ['24/7', 'Support'],
-                ['5', 'Disciplines'],
-              ].map(([v, l]) => (
-                <div key={l}>
-                  <div className="text-xl font-bold text-white">{v}</div>
-                  <div className="text-[10px] uppercase tracking-wider text-white/45">{l}</div>
+                { to: 3, suffix: '+', v: '', l: 'Years' },
+                { to: 0, suffix: '', v: '24/7', l: 'Support' },
+                { to: 5, suffix: '', v: '', l: 'Disciplines' },
+              ].map((s) => (
+                <div key={s.l}>
+                  <div className="text-xl font-bold text-navy">
+                    {s.v ? s.v : <CountUp to={s.to} suffix={s.suffix} />}
+                  </div>
+                  <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]/70">{s.l}</div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

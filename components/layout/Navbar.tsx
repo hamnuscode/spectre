@@ -43,7 +43,7 @@ export function Navbar() {
         <div className="container-x">
           <div
             className={cn(
-              'group/logo glass mx-auto flex items-center justify-between rounded-full shadow-[0_10px_30px_-18px_rgba(7,48,109,0.5)] transition-all duration-500 ease-out',
+              'group/logo glass mx-auto flex items-center justify-between rounded-2xl shadow-[0_10px_30px_-18px_rgba(7,48,109,0.5)] transition-all duration-500 ease-out',
               scrolled ? 'max-w-3xl px-4 py-2' : 'max-w-none px-4 py-3'
             )}
           >
@@ -64,7 +64,7 @@ export function Navbar() {
                     aria-label={item.label}
                     title={scrolled ? item.label : undefined}
                     className={cn(
-                      'group/nav relative grid place-items-center rounded-full transition-[color,width,padding] duration-300',
+                      'group/nav relative grid place-items-center rounded-xl transition-[color,width,padding] duration-300',
                       scrolled ? 'h-10 w-10' : 'px-3.5 py-2',
                       active
                         ? 'text-navy'
@@ -84,7 +84,7 @@ export function Navbar() {
                     </span>
                     <span
                       className={cn(
-                        'whitespace-nowrap text-sm transition-all duration-300',
+                        'link-underline whitespace-nowrap text-sm transition-all duration-300',
                         scrolled
                           ? 'pointer-events-none absolute scale-90 opacity-0'
                           : 'scale-100 opacity-100'
@@ -95,7 +95,7 @@ export function Navbar() {
                     {active && (
                       <motion.span
                         layoutId="nav-active"
-                        className="absolute inset-0 -z-10 rounded-full bg-[var(--navy-tint)]"
+                        className="absolute inset-0 -z-10 rounded-xl bg-[var(--navy-tint)]"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
@@ -117,7 +117,7 @@ export function Navbar() {
                 aria-label={open ? 'Close menu' : 'Open menu'}
                 aria-expanded={open}
                 data-cursor="hover"
-                className="relative z-50 flex h-11 w-11 items-center justify-center rounded-full prism-border lg:hidden"
+                className="relative z-50 flex h-11 w-11 items-center justify-center rounded-xl prism-border lg:hidden"
               >
                 <span className="relative block h-4 w-5">
                   <span

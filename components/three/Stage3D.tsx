@@ -15,6 +15,7 @@ const scenes = {
   knot: dynamic(() => import('./KnotScene'), { ssr: false, loading: () => <Fallback /> }),
   cubes: dynamic(() => import('./CubesScene'), { ssr: false, loading: () => <Fallback /> }),
   earth: dynamic(() => import('./EarthScene'), { ssr: false, loading: () => <Fallback /> }),
+  cpu: dynamic(() => import('./CpuScene'), { ssr: false, loading: () => <Fallback /> }),
 };
 
 function Fallback() {
