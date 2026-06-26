@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { services } from '@/data/services';
 import { CareersForm } from '@/components/forms/CareersForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { Stage3D } from '@/components/three/Stage3D';
+import { Globe } from '@/components/ui/Globe';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -27,7 +27,9 @@ export default function CareersPage() {
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">
-            <Stage3D variant="cubes" />
+            <div className="w-full max-w-[440px]">
+              <Globe />
+            </div>
           </div>
         </div>
       </header>

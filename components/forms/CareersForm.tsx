@@ -1,10 +1,11 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Label, Input, Textarea, ErrorText } from './Field';
 import { ThemedSelect } from './ThemedSelect';
+import { FormProgress } from './FormProgress';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 type Errors = Partial<
@@ -20,7 +21,22 @@ export function CareersForm({ roles }: { roles: string[] }) {
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
   const [fileName, setFileName] = useState<string>('');
+  const [role, setRole] = useState('');
+  const [progress, setProgress] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const recompute = () => {
+    const native = ['name', 'email', 'github', 'linkedin', 'note'];
+    let filled = [role, fileName].filter(Boolean).length;
+    const f = formRef.current;
+    if (f) {
+      const fd = new FormData(f);
+      filled += native.filter((k) => String(fd.get(k) || '').trim()).length;
+    }
+    setProgress((filled / 7) * 100);
+  };
+  useEffect(recompute, [role, fileName]);
 
   function validate(form: HTMLFormElement): Errors {
     const e: Errors = {};
@@ -99,7 +115,8 @@ export function CareersForm({ roles }: { roles: string[] }) {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+    <form ref={formRef} onSubmit={onSubmit} onInput={recompute} noValidate className="flex flex-col gap-5">
+      <FormProgress value={progress} />
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="name" required>Full name</Label>
@@ -119,7 +136,8 @@ export function CareersForm({ roles }: { roles: string[] }) {
           name="role"
           ariaLabel="Role of interest"
           placeholder="Choose a role…"
-          defaultValue=""
+          value={role}
+          onChange={setRole}
           options={[
             ...roles.map((r) => ({ value: r, label: r })),
             { value: 'General application', label: 'General application' },

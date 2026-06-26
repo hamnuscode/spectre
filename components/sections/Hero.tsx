@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { InteractiveRobotSpline } from '@/components/ui/interactive-3d-robot';
+import { BackgroundPaths } from '@/components/ui/BackgroundPaths';
 import { clients } from '@/data/site';
 
 const ROBOT_SCENE_URL = 'https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode';
@@ -16,37 +17,12 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 
-// Thin diagonal lines that grow / vanish on the hero sides.
-const LINES = [
-  { side: 'right', top: '8%', off: '4%', h: '38%', delay: 0, color: 'var(--cyan)' },
-  { side: 'right', top: '30%', off: '9%', h: '30%', delay: 1.4, color: 'var(--green)' },
-  { side: 'right', top: '0%', off: '14%', h: '26%', delay: 2.6, color: 'rgba(255,255,255,0.5)' },
-  { side: 'left', top: '14%', off: '4%', h: '34%', delay: 0.8, color: 'var(--green)' },
-  { side: 'left', top: '40%', off: '9%', h: '30%', delay: 2.0, color: 'var(--cyan)' },
-  { side: 'left', top: '4%', off: '13%', h: '24%', delay: 3.4, color: 'rgba(255,255,255,0.45)' },
-];
-
 export function Hero() {
   const track = [...clients, ...clients];
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-[var(--navy-deep)] text-white">
-      {/* Animated diagonal accent lines on the sides */}
-      <div aria-hidden className="absolute inset-0 overflow-hidden">
-        {LINES.map((l, i) => (
-          <span
-            key={i}
-            className="absolute w-px origin-top"
-            style={{
-              top: l.top,
-              height: l.h,
-              background: l.color,
-              transform: `rotate(${l.side === 'right' ? 28 : -28}deg)`,
-              animation: `growline 6s ease-in-out ${l.delay}s infinite`,
-              ...(l.side === 'right' ? { right: l.off } : { left: l.off }),
-            }}
-          />
-        ))}
-      </div>
+      {/* Animated floating background paths */}
+      <BackgroundPaths tone="dark" />
 
       <div className="container-x relative z-10 grid w-full items-center gap-10 pb-12 pt-[calc(var(--nav-h)+2rem)] lg:grid-cols-12 lg:gap-8">
         {/* LEFT — content */}
@@ -101,10 +77,10 @@ export function Hero() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
           className="space-y-6 lg:col-span-6"
         >
-          {/* Robot in glassmorphic box */}
+          {/* Robot in glassmorphic box — canvas is over-sized downward so the
+              Spline watermark is cropped out by the box's overflow clip. */}
           <div className="relative h-[320px] overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl sm:h-[360px]">
-            <InteractiveRobotSpline scene={ROBOT_SCENE_URL} className="absolute inset-0 h-full w-full" />
-            <div aria-hidden className="absolute bottom-0 right-0 h-12 w-40 rounded-tl-2xl bg-white/5 backdrop-blur-xl" />
+            <InteractiveRobotSpline scene={ROBOT_SCENE_URL} className="absolute inset-x-0 top-0 h-[calc(100%+80px)] w-full" />
           </div>
 
           {/* Stats card */}

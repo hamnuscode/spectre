@@ -55,11 +55,16 @@ const config: Config = {
           '0%': { backgroundPosition: '0% 50%' },
           '100%': { backgroundPosition: '200% 50%' },
         },
+        gridpan: {
+          '0%': { transform: 'translate3d(0,0,0)' },
+          '100%': { transform: 'translate3d(-56px,-56px,0)' },
+        },
       },
       animation: {
         marquee: 'marquee var(--marquee-duration,40s) linear infinite',
         drift: 'drift 18s ease-in-out infinite',
         shimmer: 'shimmer 6s linear infinite',
+        gridpan: 'gridpan 22s linear infinite',
       },
     },
   },

@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { serviceOptions } from '@/data/services';
 import { site } from '@/data/site';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea, ErrorText } from './Field';
 import { ThemedSelect } from './ThemedSelect';
+import { FormProgress } from './FormProgress';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 type Errors = Partial<Record<'name' | 'email' | 'service' | 'message', string>>;
@@ -22,6 +23,20 @@ export function EnquiryForm({ defaultService = '' }: { defaultService?: string }
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
   const [service, setService] = useState(defaultService);
+  const [progress, setProgress] = useState(0);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const recompute = () => {
+    const native = ['name', 'email', 'company', 'message'];
+    let filled = service ? 1 : 0;
+    const f = formRef.current;
+    if (f) {
+      const fd = new FormData(f);
+      filled += native.filter((k) => String(fd.get(k) || '').trim()).length;
+    }
+    setProgress((filled / 5) * 100);
+  };
+  useEffect(recompute, [service]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -88,7 +103,8 @@ export function EnquiryForm({ defaultService = '' }: { defaultService?: string }
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
+    <form ref={formRef} onSubmit={onSubmit} onInput={recompute} noValidate className="flex flex-col gap-4">
+      <FormProgress value={progress} />
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <Input name="name" aria-label="Full name" autoComplete="name" placeholder="Full Name" error={!!errors.name} aria-invalid={!!errors.name} />

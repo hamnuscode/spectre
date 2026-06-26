@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { serviceOptions } from '@/data/services';
 import { site } from '@/data/site';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea, ErrorText } from './Field';
 import { ThemedSelect } from './ThemedSelect';
+import { FormProgress } from './FormProgress';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 type Errors = Partial<Record<'name' | 'email' | 'message', string>>;
@@ -34,6 +35,20 @@ export function ContactForm({ initialService = '' }: { initialService?: string }
   const [errors, setErrors] = useState<Errors>({});
   const [service, setService] = useState(initialService);
   const [budget, setBudget] = useState('');
+  const [progress, setProgress] = useState(0);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const recompute = () => {
+    const native = ['name', 'email', 'phone', 'company', 'message'];
+    let filled = [service, budget].filter(Boolean).length;
+    const f = formRef.current;
+    if (f) {
+      const fd = new FormData(f);
+      filled += native.filter((k) => String(fd.get(k) || '').trim()).length;
+    }
+    setProgress((filled / 7) * 100);
+  };
+  useEffect(recompute, [service, budget]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -108,7 +123,8 @@ export function ContactForm({ initialService = '' }: { initialService?: string }
             </button>
           </motion.div>
         ) : (
-          <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+          <motion.form ref={formRef} key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={onSubmit} onInput={recompute} noValidate className="flex flex-col gap-5">
+            <FormProgress value={progress} />
             <div className="grid gap-5 sm:grid-cols-2">
               <label>
                 <FieldLabel required>Full name</FieldLabel>
