@@ -3,7 +3,6 @@ import { site } from '@/data/site';
 import { serviceBySlug } from '@/data/services';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal } from '@/components/ui/Reveal';
-import { Stage3D } from '@/components/three/Stage3D';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -43,23 +42,8 @@ export default async function ContactPage({
   ];
 
   return (
-    <section className="pt-[calc(var(--nav-h)+1.5rem)]">
-      {/* Animated 3D banner */}
-      <div className="container-x">
-        <div
-          className="glass relative flex h-[240px] w-full items-center justify-center overflow-hidden rounded-3xl shadow-[0_40px_90px_-50px_rgba(7,48,109,0.5)] sm:h-[300px]"
-          style={{
-            background:
-              'radial-gradient(50% 70% at 30% 30%, rgba(39,183,207,0.20), transparent 70%), radial-gradient(50% 70% at 75% 80%, rgba(43,215,127,0.18), transparent 70%), radial-gradient(60% 60% at 50% 0%, rgba(7,48,109,0.10), transparent 70%)',
-          }}
-        >
-          <div className="h-full w-[280px]">
-            <Stage3D variant="cpu" className="h-full w-full" />
-          </div>
-        </div>
-      </div>
-
-      <div className="container-x grid gap-12 pb-24 pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+    <section className="pt-[calc(var(--nav-h)+2.5rem)]">
+      <div className="container-x grid gap-12 pb-24 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         {/* LEFT — details */}
         <div>
           <Reveal>

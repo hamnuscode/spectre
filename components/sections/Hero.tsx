@@ -3,12 +3,13 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
-import { InteractiveRobotSpline } from '@/components/ui/interactive-3d-robot';
+import { SplineScene } from '@/components/ui/SplineScene';
 import { BackgroundPaths } from '@/components/ui/BackgroundPaths';
 import { CountUp } from '@/components/ui/CountUp';
 import { clients } from '@/data/site';
 
-const ROBOT_SCENE_URL = 'https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode';
+// Robot scene ported from the Greply project hero.
+const ROBOT_SCENE_URL = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode';
 
 const container = {
   hidden: { opacity: 0 },
@@ -84,11 +85,11 @@ export function Hero() {
               style={{ y: yRobot }}
               className="glass relative h-[320px] overflow-hidden rounded-3xl shadow-[0_40px_90px_-50px_rgba(7,48,109,0.55)] sm:h-[360px]"
             >
-              <InteractiveRobotSpline scene={ROBOT_SCENE_URL} className="absolute inset-x-0 top-0 h-[calc(100%+80px)] w-full" />
+              <SplineScene scene={ROBOT_SCENE_URL} className="absolute inset-x-0 top-0 h-[calc(100%+80px)] w-full" />
             </motion.div>
 
             {/* Stats glass card */}
-            <motion.div style={{ y: yStats }} className="glass rounded-3xl p-7 shadow-[0_30px_70px_-45px_rgba(7,48,109,0.5)]">
+            <motion.div style={{ y: yStats }} className="relative overflow-hidden rounded-3xl border border-white/55 bg-white/50 p-7 shadow-[0_30px_70px_-45px_rgba(7,48,109,0.5)] backdrop-blur-2xl">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-3xl font-bold tracking-tight text-navy">

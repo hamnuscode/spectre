@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { process as steps } from '@/data/site';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Stage3D } from '@/components/three/Stage3D';
+import { CpuArchitecture } from '@/components/ui/cpu-architecture';
 
 /* ---- Wave geometry (viewBox units) ---------------------------------- */
 const N = steps.length;
@@ -101,12 +101,21 @@ export function ProcessRoadmap() {
   return (
     // Tall wrapper defines the pinned scroll distance.
     <section ref={wrapRef} className="relative h-[180vh] bg-offwhite">
-      <div className="sticky top-0 flex min-h-screen flex-col justify-center py-10">
-        {/* Decorative animated CPU — sits to the upper-right of the section */}
-        <div className="absolute right-[4%] top-[10%] hidden h-40 w-40 lg:block xl:h-52 xl:w-52">
-          <Stage3D variant="cpu" className="h-full w-full" />
+      <div className="sticky top-0 flex min-h-screen flex-col justify-center overflow-hidden py-10">
+        {/* Brand gradient wash */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(55% 55% at 85% 12%, rgba(39,183,207,0.18), transparent 70%), radial-gradient(50% 55% at 8% 92%, rgba(43,215,127,0.16), transparent 72%), radial-gradient(45% 45% at 50% 0%, rgba(7,48,109,0.08), transparent 70%)',
+          }}
+        />
+        {/* Greply CPU architecture — animated, upper-right of the section */}
+        <div className="pointer-events-none absolute right-[3%] top-[7%] hidden w-72 lg:block xl:w-96">
+          <CpuArchitecture className="h-auto w-full" text="SPECTRE" />
         </div>
-        <div className="container-x">
+        <div className="container-x relative z-10">
           <SectionHeader
             eyebrow="// How We Work"
             title={
