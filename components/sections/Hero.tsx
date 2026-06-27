@@ -70,20 +70,25 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — large robot */}
+          {/* RIGHT — bare robot, no box */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
             className="lg:col-span-6"
           >
-            {/* Robot in a glassmorphic box — canvas over-sized downward so the
-                Spline watermark is cropped out by the box's overflow clip. */}
+            {/* Robot floats free — transparent container, just enough overflow
+                clip to crop the Spline watermark. revealAfter skips the
+                start-up zoom-out so only the settled pose is shown. */}
             <motion.div
               style={{ y: yRobot }}
-              className="glass relative h-[440px] overflow-hidden rounded-3xl shadow-[0_50px_110px_-50px_rgba(7,48,109,0.55)] sm:h-[540px] lg:h-[600px]"
+              className="relative h-[480px] overflow-hidden sm:h-[600px] lg:h-[680px]"
             >
-              <SplineScene scene={ROBOT_SCENE_URL} className="absolute inset-x-0 top-0 h-[calc(100%+90px)] w-full" />
+              <SplineScene
+                scene={ROBOT_SCENE_URL}
+                revealAfter={1500}
+                className="absolute inset-x-0 top-0 h-[calc(100%+90px)] w-full"
+              />
             </motion.div>
           </motion.div>
         </div>

@@ -1,11 +1,17 @@
 'use client';
 
-import { Suspense, lazy, useEffect, useRef } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
 interface SplineSceneProps {
   scene: string;
   className?: string;
+  /**
+   * Skip the scene's intro (e.g. the start-up zoom-out) by keeping the canvas
+   * hidden until this many ms after the scene loads, then fading it in. The
+   * intro still plays off-screen, so the user only ever sees the settled pose.
+   */
+  revealAfter?: number;
 }
 
 /**
@@ -16,8 +22,9 @@ interface SplineSceneProps {
  * PointerEvents (one forward per frame using the latest coords). Inside the
  * box, native events handle it, so we skip to avoid duplicates.
  */
-export function SplineScene({ scene, className }: SplineSceneProps) {
+export function SplineScene({ scene, className, revealAfter = 0 }: SplineSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
+  const [revealed, setRevealed] = useState(revealAfter === 0);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -75,7 +82,17 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
           </div>
         }
       >
-        <Spline scene={scene} className="h-full w-full" />
+        <Spline
+          scene={scene}
+          className="h-full w-full"
+          style={{
+            opacity: revealed ? 1 : 0,
+            transition: 'opacity 0.7s ease',
+          }}
+          onLoad={() => {
+            if (revealAfter > 0) setTimeout(() => setRevealed(true), revealAfter);
+          }}
+        />
       </Suspense>
     </div>
   );

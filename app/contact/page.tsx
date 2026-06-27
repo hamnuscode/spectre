@@ -42,18 +42,55 @@ export default async function ContactPage({
   ];
 
   return (
-    <section className="pt-[calc(var(--nav-h)+2.5rem)]">
-      <div className="container-x grid gap-12 pb-24 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+    <>
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <header className="relative overflow-hidden pt-[calc(var(--nav-h)+3.5rem)]">
+        {/* soft brand blob */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-24 top-24 h-[420px] w-[420px] rounded-full opacity-70 blur-3xl"
+          style={{ background: 'radial-gradient(circle, rgba(39,183,207,0.18), transparent 70%)' }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(55% 50% at 70% 0%, rgba(43,215,127,0.10), transparent 70%)',
+          }}
+        />
+        <div className="container-x relative z-10 max-w-3xl pb-16 lg:pb-24">
+          <Reveal>
+            <p className="eyebrow mb-5">Get in Touch</p>
+          </Reveal>
+          <Reveal delay={60}>
+            <h1 className="text-[clamp(2.8rem,7vw,5rem)] font-bold leading-[0.98] tracking-tight">
+              Let&apos;s Build the Future of{' '}
+              <span className="text-gradient">Digital.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={120}>
+            <p className="mt-7 max-w-xl text-[1.15rem] leading-relaxed text-[var(--muted)]">
+              Whether you have a project brief ready or just an idea, we want to
+              hear from you. Reach out and we&apos;ll get back to you within one
+              business day.
+            </p>
+          </Reveal>
+        </div>
+      </header>
+
+      {/* ── Details + form ───────────────────────────────────── */}
+      <section className="container-x grid gap-12 pb-24 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         {/* LEFT — details */}
         <div>
           <Reveal>
             <p className="eyebrow mb-4">Contact Details</p>
           </Reveal>
           <Reveal delay={60}>
-            <h1 className="text-[clamp(2.2rem,5vw,3.4rem)]">
+            <h2 className="text-[clamp(2.2rem,5vw,3.4rem)]">
               We&apos;re here{' '}
               <span className="text-gradient">to talk.</span>
-            </h1>
+            </h2>
           </Reveal>
 
           <div className="mt-9 space-y-3">
@@ -95,7 +132,7 @@ export default async function ContactPage({
         <Reveal>
           <ContactForm initialService={initial} />
         </Reveal>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
