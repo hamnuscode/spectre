@@ -1,17 +1,11 @@
 'use client';
 
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef } from 'react';
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
 interface SplineSceneProps {
   scene: string;
   className?: string;
-  /**
-   * Skip the scene's intro (e.g. the start-up zoom-out) by keeping the canvas
-   * hidden until this many ms after the scene loads, then fading it in. The
-   * intro still plays off-screen, so the user only ever sees the settled pose.
-   */
-  revealAfter?: number;
 }
 
 /**
@@ -26,13 +20,12 @@ interface SplineSceneProps {
  */
 type SplineApp = { stop: () => void; play: () => void };
 
-export function SplineScene({ scene, className, revealAfter = 0 }: SplineSceneProps) {
+export function SplineScene({ scene, className }: SplineSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<SplineApp | null>(null);
   // Whether the scene is on-screen; cursor forwarding + Spline's render loop
   // are paused when it isn't.
   const visibleRef = useRef(true);
-  const [revealed, setRevealed] = useState(revealAfter === 0);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -114,16 +107,11 @@ export function SplineScene({ scene, className, revealAfter = 0 }: SplineScenePr
         <Spline
           scene={scene}
           className="h-full w-full"
-          style={{
-            opacity: revealed ? 1 : 0,
-            transition: 'opacity 0.7s ease',
-          }}
           onLoad={(app) => {
             appRef.current = app;
             // If it finished loading while already scrolled away / tab hidden,
             // don't let its render loop run.
             if (!visibleRef.current || document.hidden) app.stop();
-            if (revealAfter > 0) setTimeout(() => setRevealed(true), revealAfter);
           }}
         />
       </Suspense>

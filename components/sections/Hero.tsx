@@ -50,20 +50,12 @@ export function Hero() {
           wrapper's overflow clip hides the Spline watermark. */}
       <motion.div
         aria-hidden
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
         style={{ y: yRobot }}
         className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-full overflow-hidden lg:w-[72%]"
       >
-        {/* revealAfter holds the canvas hidden through the scene's whole
-            start-up zoom-out, so the intro is never seen — including on
-            client-side navigations back to home (where the intro loader,
-            which masked it on first load, doesn't run). */}
         <SplineScene
           scene={ROBOT_SCENE_URL}
-          revealAfter={2700}
-          className="absolute left-[58%] top-[104%] h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-[58%] top-[96%] h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2"
         />
       </motion.div>
 

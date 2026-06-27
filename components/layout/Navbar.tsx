@@ -95,7 +95,15 @@ export function Navbar() {
                     {active && (
                       <span
                         aria-hidden
-                        className="absolute inset-0 -z-10 rounded-xl bg-[var(--navy-tint)]"
+                        className={cn(
+                          '-z-10 rounded-xl bg-[var(--navy-tint)]',
+                          // Collapsed: a fixed centered square that hugs the icon
+                          // (independent of the link box, so it can't look
+                          // stretched). Expanded: a pill behind the label.
+                          scrolled
+                            ? 'absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2'
+                            : 'absolute inset-0'
+                        )}
                       />
                     )}
                   </Link>
