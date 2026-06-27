@@ -17,15 +17,15 @@ interface SplineSceneProps {
  * when the cursor is over the canvas — because the robot can sit beneath other
  * layers (e.g. a hero background) where native pointer events never reach it.
  * Events are dispatched non-bubbling so they don't re-trigger this listener.
+ *
+ * NOTE: we deliberately do NOT stop()/play() the scene on scroll or tab
+ * visibility. Spline's play() restarts the scene's start-up camera animation,
+ * which made the robot re-zoom every time it scrolled back into view. Leaving
+ * the render loop running avoids that replay (browsers already throttle rAF
+ * for fully off-screen / backgrounded canvases).
  */
-type SplineApp = { stop: () => void; play: () => void };
-
 export function SplineScene({ scene, className }: SplineSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
-  const appRef = useRef<SplineApp | null>(null);
-  // Whether the scene is on-screen; cursor forwarding + Spline's render loop
-  // are paused when it isn't.
-  const visibleRef = useRef(true);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -37,7 +37,6 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
 
     const flush = () => {
       frame = 0;
-      if (!visibleRef.current) return; // off-screen: don't drive the canvas
       if (!canvas || !canvas.isConnected) canvas = host.querySelector('canvas');
       if (!canvas) return;
       canvas.dispatchEvent(
@@ -61,33 +60,9 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
       if (!frame) frame = requestAnimationFrame(flush);
     };
 
-    // Apply the current visibility/tab state to Spline's render loop.
-    const sync = () => {
-      const app = appRef.current;
-      if (!app) return;
-      if (visibleRef.current && !document.hidden) app.play();
-      else app.stop();
-    };
-
-    // Pause the 3D render loop when the scene scrolls out of view.
-    const io = new IntersectionObserver(
-      ([e]) => {
-        visibleRef.current = e.isIntersecting;
-        sync();
-      },
-      { rootMargin: '120px' },
-    );
-    io.observe(host);
-
-    // …and when the tab is backgrounded.
-    const onVisChange = () => sync();
-    document.addEventListener('visibilitychange', onVisChange);
-
     window.addEventListener('pointermove', onMove, { passive: true });
     return () => {
       window.removeEventListener('pointermove', onMove);
-      document.removeEventListener('visibilitychange', onVisChange);
-      io.disconnect();
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);
@@ -104,16 +79,7 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
           </div>
         }
       >
-        <Spline
-          scene={scene}
-          className="h-full w-full"
-          onLoad={(app) => {
-            appRef.current = app;
-            // If it finished loading while already scrolled away / tab hidden,
-            // don't let its render loop run.
-            if (!visibleRef.current || document.hidden) app.stop();
-          }}
-        />
+        <Spline scene={scene} className="h-full w-full" />
       </Suspense>
     </div>
   );

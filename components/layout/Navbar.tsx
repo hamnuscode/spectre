@@ -47,10 +47,14 @@ export function Navbar() {
               scrolled ? 'max-w-3xl px-4 py-2' : 'max-w-none px-4 py-3'
             )}
           >
-            <Logo />
+            {/* Left column (flex-1) balances the right column so the nav sits
+                in the true centre — horizontally and vertically. */}
+            <div className="flex flex-1 items-center">
+              <Logo />
+            </div>
 
-            {/* Desktop nav */}
-            <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-1 lg:flex" aria-label="Primary">
+            {/* Desktop nav — centred in-flow (items-center handles vertical). */}
+            <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
               {nav.map((item) => {
                 const active =
                   item.href === '/'
@@ -111,7 +115,7 @@ export function Navbar() {
               })}
             </nav>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-1 items-center justify-end gap-2">
               <div className="hidden sm:block">
                 <Button href="/contact" variant="primary" className="px-5 py-2.5">
                   Get a Quote
