@@ -10,17 +10,26 @@ import { motion } from 'framer-motion';
  */
 function FloatingPaths({ position, tone }: { position: number; tone: 'light' | 'dark' }) {
   const stroke = tone === 'dark' ? 'rgba(255,255,255,1)' : 'rgba(7,48,109,1)';
-  const paths = Array.from({ length: 36 }, (_, i) => ({
-    id: i,
-    d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
-      380 - i * 5 * position
-    } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${
-      152 - i * 5 * position
-    } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
-      684 - i * 5 * position
-    } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-    width: 0.5 + i * 0.03,
-  }));
+  // Fewer paths = far less main-thread SVG animation work (these animate
+  // pathLength/pathOffset, which aren't GPU-composited). 14 per family still
+  // reads as a dense ribbon while keeping the frame budget cheap. `k` spreads
+  // the 14 curves across the same area the original 36 covered.
+  const COUNT = 14;
+  const SPREAD = 36 / COUNT;
+  const paths = Array.from({ length: COUNT }, (_, i) => {
+    const k = i * SPREAD;
+    return {
+      id: i,
+      d: `M-${380 - k * 5 * position} -${189 + k * 6}C-${
+        380 - k * 5 * position
+      } -${189 + k * 6} -${312 - k * 5 * position} ${216 - k * 6} ${
+        152 - k * 5 * position
+      } ${343 - k * 6}C${616 - k * 5 * position} ${470 - k * 6} ${
+        684 - k * 5 * position
+      } ${875 - k * 6} ${684 - k * 5 * position} ${875 - k * 6}`,
+      width: 0.5 + k * 0.03,
+    };
+  });
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -31,7 +40,7 @@ function FloatingPaths({ position, tone }: { position: number; tone: 'light' | '
             d={path.d}
             stroke={stroke}
             strokeWidth={path.width}
-            strokeOpacity={0.06 + path.id * 0.006}
+            strokeOpacity={0.06 + path.id * 0.016}
             initial={{ pathLength: 0.3, opacity: 0.5 }}
             animate={{
               pathLength: 1,

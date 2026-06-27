@@ -32,19 +32,18 @@ export function AmbientBackground() {
         }}
       />
 
-      {/* soft drifting themed gradient blobs — more present */}
-      <span className="absolute -left-[12%] -top-[10%] h-[52vmax] w-[52vmax] rounded-full bg-[radial-gradient(circle,rgba(7,48,109,0.16),transparent_65%)] blur-3xl animate-drift" />
+      {/* soft drifting themed gradient blobs — the radial gradients are
+          already soft (fade to transparent), so no costly CSS blur is needed.
+          Each is promoted to its own GPU layer so the drift transform is a
+          cheap composite, not a per-frame re-rasterisation. */}
+      <span className="animate-drift absolute -left-[12%] -top-[10%] h-[52vmax] w-[52vmax] transform-gpu rounded-full bg-[radial-gradient(circle,rgba(7,48,109,0.16),transparent_70%)] will-change-transform" />
       <span
-        className="absolute right-[-14%] top-[18%] h-[46vmax] w-[46vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.18),transparent_65%)] blur-3xl animate-drift"
+        className="animate-drift absolute right-[-14%] top-[18%] h-[46vmax] w-[46vmax] transform-gpu rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.18),transparent_70%)] will-change-transform"
         style={{ animationDelay: '-9s', animationDuration: '30s' }}
       />
       <span
-        className="absolute bottom-[-18%] left-[28%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgba(43,215,127,0.16),transparent_65%)] blur-3xl animate-drift"
+        className="animate-drift absolute bottom-[-18%] left-[28%] h-[50vmax] w-[50vmax] transform-gpu rounded-full bg-[radial-gradient(circle,rgba(43,215,127,0.16),transparent_70%)] will-change-transform"
         style={{ animationDelay: '-16s', animationDuration: '34s' }}
-      />
-      <span
-        className="absolute bottom-[6%] right-[8%] h-[36vmax] w-[36vmax] rounded-full bg-[radial-gradient(circle,rgba(39,183,207,0.12),transparent_65%)] blur-3xl animate-drift"
-        style={{ animationDelay: '-22s', animationDuration: '38s' }}
       />
     </div>
   );

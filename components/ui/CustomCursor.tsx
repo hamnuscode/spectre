@@ -35,6 +35,8 @@ export function CustomCursor() {
       ty = e.clientY;
       // Dot is 1:1 with the pointer — written immediately for zero lag feel.
       dot.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+      // Wake the ring loop if it had settled and parked itself.
+      if (!raf) raf = requestAnimationFrame(loop);
     };
 
     const loop = () => {
@@ -42,6 +44,12 @@ export function CustomCursor() {
       rx += (tx - rx) * 0.18;
       ry += (ty - ry) * 0.18;
       ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      // Park the loop once settled so we don't burn a frame every 16ms while
+      // the pointer is idle; onMove re-arms it.
+      if (Math.abs(tx - rx) < 0.1 && Math.abs(ty - ry) < 0.1) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);

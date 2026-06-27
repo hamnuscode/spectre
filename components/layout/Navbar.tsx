@@ -50,7 +50,7 @@ export function Navbar() {
             <Logo />
 
             {/* Desktop nav */}
-            <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex" aria-label="Primary">
+            <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-1 lg:flex" aria-label="Primary">
               {nav.map((item) => {
                 const active =
                   item.href === '/'

@@ -22,6 +22,7 @@ const COLORS = {
 
 const WORDMARK = 'Spectre';
 const TAGLINE = 'Driving Real Growth';
+const LOGO_SIZE = 132; // px — the mark on the loading screen
 
 // Timeline (seconds) — phases overlap intentionally.
 const T = {
@@ -114,9 +115,10 @@ export function IntroLoader() {
         transition={{ duration: REDUCED_FADE, ease: 'linear' }}
         style={overlayStyle}
       >
+        <div aria-hidden style={bgWashStyle} />
         <div style={stackStyle}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/spectre-logo.png" alt="" width={92} height={92} style={{ height: 92, width: 92 }} />
+          <img src="/brand/spectre-logo.png" alt="" width={LOGO_SIZE} height={LOGO_SIZE} style={{ height: LOGO_SIZE, width: LOGO_SIZE }} />
           <span style={wordmarkStyle}>{WORDMARK}</span>
           <span style={taglineStyle}>{TAGLINE}</span>
         </div>
@@ -138,22 +140,42 @@ export function IntroLoader() {
       transition={{ duration: T.exitDur, ease: [0.16, 1, 0.3, 1] }}
       style={overlayStyle}
     >
+      {/* Background elements — soft brand washes + a faint grid, behind the
+          mark. Static (no per-frame work) so the loader never costs frames. */}
+      <div aria-hidden style={bgWashStyle} />
+      <div aria-hidden style={bgGridStyle} />
+
       <div style={stackStyle}>
-        {/* Phase 1 — raster mark: fade + scale 0.85→1 with blur-to-sharp */}
-        <motion.img
-          src="/brand/spectre-logo.png"
-          alt=""
-          width={92}
-          height={92}
-          initial={{ opacity: 0, scale: 0.85, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          transition={{
-            duration: T.logoIn.dur,
-            delay: T.logoIn.start,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          style={{ height: 92, width: 92, willChange: 'transform, opacity, filter' }}
-        />
+        {/* Phase 1 — raster mark with a soft halo: fade + scale 0.85→1,
+            blur-to-sharp */}
+        <div style={logoWrapStyle}>
+          <motion.span
+            aria-hidden
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.1, delay: T.logoIn.start, ease: [0.16, 1, 0.3, 1] }}
+            style={haloStyle}
+          />
+          <motion.img
+            src="/brand/spectre-logo.png"
+            alt=""
+            width={LOGO_SIZE}
+            height={LOGO_SIZE}
+            initial={{ opacity: 0, scale: 0.85, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            transition={{
+              duration: T.logoIn.dur,
+              delay: T.logoIn.start,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            style={{
+              position: 'relative',
+              height: LOGO_SIZE,
+              width: LOGO_SIZE,
+              willChange: 'transform, opacity, filter',
+            }}
+          />
+        </div>
 
         {/* Phase 2 — wordmark: per-letter clip + translateY reveal */}
         <span style={wordmarkRowStyle} aria-label={WORDMARK}>
@@ -212,15 +234,52 @@ const overlayStyle: React.CSSProperties = {
   zIndex: Z,
   display: 'grid',
   placeItems: 'center',
+  overflow: 'hidden',
   background: COLORS.bg,
   willChange: 'transform, opacity',
 };
 
 const stackStyle: React.CSSProperties = {
+  position: 'relative',
+  zIndex: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: '1.25rem',
+};
+
+// Background elements
+const bgWashStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background:
+    'radial-gradient(42% 42% at 50% 38%, rgba(39,183,207,0.14), transparent 70%), radial-gradient(40% 40% at 18% 88%, rgba(43,215,127,0.12), transparent 72%), radial-gradient(45% 45% at 85% 15%, rgba(7,48,109,0.08), transparent 72%)',
+};
+
+const bgGridStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  backgroundImage:
+    'linear-gradient(to right, rgba(7,48,109,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(7,48,109,0.05) 1px, transparent 1px)',
+  backgroundSize: '48px 48px',
+  maskImage: 'radial-gradient(ellipse at center, black 18%, transparent 68%)',
+  WebkitMaskImage: 'radial-gradient(ellipse at center, black 18%, transparent 68%)',
+};
+
+const logoWrapStyle: React.CSSProperties = {
+  position: 'relative',
+  display: 'grid',
+  placeItems: 'center',
+};
+
+const haloStyle: React.CSSProperties = {
+  position: 'absolute',
+  height: LOGO_SIZE * 2.4,
+  width: LOGO_SIZE * 2.4,
+  borderRadius: '9999px',
+  background:
+    'radial-gradient(circle, rgba(39,183,207,0.22), rgba(7,48,109,0.06) 45%, transparent 70%)',
+  willChange: 'transform, opacity',
 };
 
 const wordmarkRowStyle: React.CSSProperties = {
