@@ -58,8 +58,8 @@ export function Navbar() {
                 balance against the bar's drop shadow. */}
             <nav
               className={cn(
-                'hidden items-center gap-1 lg:flex',
-                scrolled && 'lg:translate-y-[6px]'
+                'hidden items-center gap-2 lg:flex',
+                scrolled && 'lg:translate-y-[5px]'
               )}
               aria-label="Primary"
             >
@@ -109,12 +109,10 @@ export function Navbar() {
                         aria-hidden
                         className={cn(
                           '-z-10 rounded-xl bg-[var(--navy-tint)]',
-                          // Collapsed: a fixed centered square that hugs the icon
-                          // (independent of the link box, so it can't look
-                          // stretched). Expanded: a pill behind the label.
-                          scrolled
-                            ? 'absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2'
-                            : 'absolute inset-0'
+                          // Collapsed: a symmetric inset square — guaranteed
+                          // centered on the (square) icon button, can't drift.
+                          // Expanded: a pill behind the label.
+                          scrolled ? 'absolute inset-1' : 'absolute inset-0'
                         )}
                       />
                     )}
