@@ -18,9 +18,11 @@ interface SplineSceneProps {
  * Lazy-loaded Spline 3D scene (ported from the Greply project). Client-only.
  *
  * Global cursor tracking: the scene's pointer handler only listens on its
- * canvas, so we forward out-of-box mouse moves to the canvas as real
- * PointerEvents (one forward per frame using the latest coords). Inside the
- * box, native events handle it, so we skip to avoid duplicates.
+ * canvas, so we forward every mouse move to the canvas as a real PointerEvent
+ * (one forward per frame using the latest coords). We always forward — even
+ * when the cursor is over the canvas — because the robot can sit beneath other
+ * layers (e.g. a hero background) where native pointer events never reach it.
+ * Events are dispatched non-bubbling so they don't re-trigger this listener.
  */
 export function SplineScene({ scene, className, revealAfter = 0 }: SplineSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -38,10 +40,6 @@ export function SplineScene({ scene, className, revealAfter = 0 }: SplineScenePr
       frame = 0;
       if (!canvas || !canvas.isConnected) canvas = host.querySelector('canvas');
       if (!canvas) return;
-      const r = canvas.getBoundingClientRect();
-      const inside =
-        lastX >= r.left && lastX <= r.right && lastY >= r.top && lastY <= r.bottom;
-      if (inside) return;
       canvas.dispatchEvent(
         new PointerEvent('pointermove', {
           pointerId: 1,
@@ -49,7 +47,7 @@ export function SplineScene({ scene, className, revealAfter = 0 }: SplineScenePr
           isPrimary: true,
           clientX: lastX,
           clientY: lastY,
-          bubbles: true,
+          bubbles: false,
           cancelable: true,
           view: window,
         }),
