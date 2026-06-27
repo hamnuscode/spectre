@@ -45,10 +45,34 @@ export function Hero() {
       {/* Animated floating background paths */}
       <BackgroundPaths tone="light" />
 
+      {/* Robot — zoomed in and sitting in the background, biased to the right.
+          The canvas is over-sized + centered so it reads large/close; the
+          wrapper's overflow clip hides the Spline watermark. */}
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
+        style={{ y: yRobot }}
+        className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-full overflow-hidden lg:w-[72%]"
+      >
+        <SplineScene
+          scene={ROBOT_SCENE_URL}
+          revealAfter={1500}
+          className="absolute left-1/2 top-1/2 h-[165%] w-[165%] -translate-x-1/2 -translate-y-1/2"
+        />
+      </motion.div>
+
+      {/* Readability scrim — keeps the left-hand copy legible over the robot */}
+      <div
+        aria-hidden
+        className="absolute inset-0 z-[2] bg-gradient-to-r from-offwhite via-offwhite/80 to-transparent lg:via-offwhite/55"
+      />
+
       <div className="container-x relative z-10 flex flex-1 items-center">
-        <div className="grid w-full items-center gap-10 pb-12 pt-[calc(var(--nav-h)+2rem)] lg:grid-cols-12 lg:gap-8">
-          {/* LEFT — content */}
-          <motion.div variants={container} initial="hidden" animate="show" className="lg:col-span-6">
+        <div className="w-full pb-12 pt-[calc(var(--nav-h)+2rem)]">
+          {/* Content */}
+          <motion.div variants={container} initial="hidden" animate="show" className="max-w-2xl">
             <motion.p variants={item} className="mb-5 text-xs font-semibold uppercase tracking-[0.26em] text-[var(--accent)]">
               Tech · Web · Marketing · Finance · People
             </motion.p>
@@ -67,29 +91,6 @@ export function Hero() {
               <Button href="/services" variant="secondary">
                 Explore Services
               </Button>
-            </motion.div>
-          </motion.div>
-
-          {/* RIGHT — bare robot, no box */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
-            className="lg:col-span-6"
-          >
-            {/* Robot floats free — transparent container, bled toward the
-                right/top so the robot is large and never cropped on the
-                sides or head. Only the very bottom is clipped to hide the
-                Spline watermark. revealAfter skips the start-up zoom-out. */}
-            <motion.div
-              style={{ y: yRobot }}
-              className="relative h-[540px] overflow-hidden sm:h-[680px] lg:h-[820px] lg:-mr-16 lg:-mt-10 xl:-mr-32"
-            >
-              <SplineScene
-                scene={ROBOT_SCENE_URL}
-                revealAfter={1500}
-                className="absolute inset-x-0 top-0 h-[calc(100%+80px)] w-full"
-              />
             </motion.div>
           </motion.div>
         </div>

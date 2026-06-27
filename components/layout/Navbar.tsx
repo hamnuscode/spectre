@@ -43,14 +43,14 @@ export function Navbar() {
         <div className="container-x">
           <div
             className={cn(
-              'group/logo glass mx-auto flex items-center justify-between rounded-2xl shadow-[0_10px_30px_-18px_rgba(7,48,109,0.5)] transition-all duration-500 ease-out',
+              'group/logo glass relative mx-auto flex items-center justify-between rounded-2xl shadow-[0_10px_30px_-18px_rgba(7,48,109,0.5)] transition-all duration-500 ease-out',
               scrolled ? 'max-w-3xl px-4 py-2' : 'max-w-none px-4 py-3'
             )}
           >
             <Logo />
 
             {/* Desktop nav */}
-            <nav className="hidden flex-1 items-center justify-center gap-1 lg:flex" aria-label="Primary">
+            <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex" aria-label="Primary">
               {nav.map((item) => {
                 const active =
                   item.href === '/'
