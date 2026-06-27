@@ -57,6 +57,10 @@ export default async function ContactPage({
           style={{
             background:
               'radial-gradient(55% 50% at 70% 0%, rgba(43,215,127,0.10), transparent 70%)',
+            // Fade out toward the bottom so the wash blends into the ambient
+            // background instead of cutting off hard at the header's edge.
+            maskImage: 'linear-gradient(to bottom, black 60%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent)',
           }}
         />
         <div className="container-x relative z-10 max-w-3xl pb-16 lg:pb-24">
