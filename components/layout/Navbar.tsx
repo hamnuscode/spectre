@@ -64,7 +64,7 @@ export function Navbar() {
                     aria-label={item.label}
                     title={scrolled ? item.label : undefined}
                     className={cn(
-                      'group/nav relative grid place-items-center rounded-xl transition-[color,width,padding] duration-300',
+                      'group/nav relative grid shrink-0 place-items-center rounded-xl leading-none transition-[color,width,padding] duration-300',
                       scrolled ? 'h-10 w-10' : 'px-3.5 py-2',
                       active
                         ? 'text-navy'

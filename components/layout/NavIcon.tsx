@@ -42,7 +42,7 @@ export function NavIcon({ href, className }: { href: string; className?: string 
       strokeLinejoin="round"
       width="20"
       height="20"
-      className={className}
+      className={`block ${className ?? ''}`}
       aria-hidden
     >
       {paths[href] ?? <circle cx="12" cy="12" r="9" />}
