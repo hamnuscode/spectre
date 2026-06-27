@@ -59,7 +59,7 @@ export function Hero() {
         <SplineScene
           scene={ROBOT_SCENE_URL}
           revealAfter={1500}
-          className="absolute left-1/2 top-1/2 h-[165%] w-[165%] -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-1/2 top-[74%] h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2"
         />
       </motion.div>
 
