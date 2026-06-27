@@ -19,7 +19,11 @@ export default function CareersPage() {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(50% 60% at 85% 10%, rgba(39,183,207,0.16), transparent 70%), radial-gradient(45% 55% at 5% 95%, rgba(43,215,127,0.14), transparent 72%)',
+              'radial-gradient(50% 60% at 85% 10%, rgba(39,183,207,0.16), transparent 70%), radial-gradient(45% 60% at 5% 80%, rgba(43,215,127,0.14), transparent 72%)',
+            // Fade the wash out toward the bottom so it blends into the ambient
+            // background instead of cutting off hard at the header's edge.
+            maskImage: 'linear-gradient(to bottom, black 60%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent)',
           }}
         />
         <div className="container-x relative z-10 max-w-3xl pb-6">
