@@ -46,6 +46,12 @@
   box-sizing: border-box;
 }
 
+/* Intro loader: when already seen this session, an inline script flags <html>
+   so the SSR-rendered overlay is hidden before first paint (no flash). */
+html[data-intro-seen] #spectre-intro {
+  display: none !important;
+}
+
 html {
   /* Slightly smaller global type scale (rem-based sizing scales down ~7%) */
   font-size: 93%;

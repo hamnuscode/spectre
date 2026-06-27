@@ -7,6 +7,7 @@ import { AmbientBackground } from '@/components/ui/AmbientBackground';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/ui/PageTransition';
+import { IntroLoader } from '@/components/ui/IntroLoader';
 
 // Display: Sora — a clean geometric sans for bold, tight headings.
 const sora = Sora({
@@ -89,6 +90,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       <body>
+        {/* Intro loader: runs before paint so there's no flash. If the intro
+            was already shown this session, hide the overlay immediately;
+            otherwise lock scroll from first paint while it plays. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{if(sessionStorage.getItem('spectre-intro-seen')){document.documentElement.setAttribute('data-intro-seen','');}else{document.documentElement.setAttribute('data-intro-active','');document.documentElement.style.overflow='hidden';}}catch(e){}})();",
+          }}
+        />
+        <IntroLoader />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
