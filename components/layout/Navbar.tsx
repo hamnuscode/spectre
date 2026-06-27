@@ -53,16 +53,13 @@ export function Navbar() {
               <Logo />
             </div>
 
-            {/* Desktop nav — centred in-flow (items-center handles vertical).
-                Small downward nudge on the collapsed icon row for optical
-                balance against the bar's drop shadow. */}
-            <nav
-              className={cn(
-                'hidden items-center gap-2 lg:flex',
-                scrolled && 'lg:translate-y-[5px]'
-              )}
-              aria-label="Primary"
-            >
+            {/* Desktop nav. Each item is a single flex-centred button:
+                - collapsed → a fixed 40×40 square holding the icon
+                - expanded  → an auto-width pill holding the label
+                The active state is the button's OWN background, so it is
+                always perfectly aligned to its content (no overlay to drift).
+                Vertical centring is pure flexbox via the bar's items-center. */}
+            <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
               {nav.map((item) => {
                 const active =
                   item.href === '/'
@@ -74,47 +71,21 @@ export function Navbar() {
                     href={item.href}
                     data-cursor="hover"
                     aria-label={item.label}
+                    aria-current={active ? 'page' : undefined}
                     title={scrolled ? item.label : undefined}
                     className={cn(
-                      'group/nav relative inline-flex shrink-0 items-center justify-center rounded-xl leading-none transition-[color,width,padding] duration-300',
-                      scrolled ? 'h-10 w-10' : 'px-3.5 py-2',
+                      'flex h-10 items-center justify-center rounded-xl text-sm font-medium transition-colors duration-300',
+                      scrolled ? 'w-10' : 'px-4',
                       active
-                        ? 'text-navy'
-                        : 'text-[var(--muted)] hover:text-[var(--cyan)]'
+                        ? 'bg-[var(--navy-tint)] text-navy'
+                        : 'text-[var(--muted)] hover:text-[var(--cyan)]',
+                      !active && scrolled && 'hover:bg-[var(--navy-tint)]/60'
                     )}
                   >
-                    {/* Collapsed: icon. Expanded: label. Cross-fade. */}
-                    <span
-                      className={cn(
-                        'transition-all duration-300',
-                        scrolled
-                          ? 'scale-100 opacity-100'
-                          : 'pointer-events-none absolute scale-75 opacity-0'
-                      )}
-                    >
+                    {scrolled ? (
                       <NavIcon href={item.href} />
-                    </span>
-                    <span
-                      className={cn(
-                        'link-underline whitespace-nowrap text-sm transition-all duration-300',
-                        scrolled
-                          ? 'pointer-events-none absolute scale-90 opacity-0'
-                          : 'scale-100 opacity-100'
-                      )}
-                    >
-                      {item.label}
-                    </span>
-                    {active && (
-                      <span
-                        aria-hidden
-                        className={cn(
-                          '-z-10 rounded-xl bg-[var(--navy-tint)]',
-                          // Collapsed: a symmetric inset square — guaranteed
-                          // centered on the (square) icon button, can't drift.
-                          // Expanded: a pill behind the label.
-                          scrolled ? 'absolute inset-1' : 'absolute inset-0'
-                        )}
-                      />
+                    ) : (
+                      <span className="link-underline whitespace-nowrap">{item.label}</span>
                     )}
                   </Link>
                 );
