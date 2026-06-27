@@ -59,7 +59,7 @@ export function Navbar() {
             <nav
               className={cn(
                 'hidden items-center gap-1 lg:flex',
-                scrolled && 'lg:translate-y-[3px]'
+                scrolled && 'lg:translate-y-[6px]'
               )}
               aria-label="Primary"
             >
