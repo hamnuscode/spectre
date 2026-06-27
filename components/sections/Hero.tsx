@@ -59,15 +59,9 @@ export function Hero() {
         <SplineScene
           scene={ROBOT_SCENE_URL}
           revealAfter={1500}
-          className="absolute left-1/2 top-[74%] h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-1/2 top-[104%] h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2"
         />
       </motion.div>
-
-      {/* Readability scrim — keeps the left-hand copy legible over the robot */}
-      <div
-        aria-hidden
-        className="absolute inset-0 z-[2] bg-gradient-to-r from-offwhite via-offwhite/80 to-transparent lg:via-offwhite/55"
-      />
 
       <div className="container-x relative z-10 flex flex-1 items-center">
         <div className="w-full pb-12 pt-[calc(var(--nav-h)+2rem)]">
