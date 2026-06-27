@@ -93,10 +93,9 @@ export function Navbar() {
                       {item.label}
                     </span>
                     {active && (
-                      <motion.span
-                        layoutId="nav-active"
+                      <span
+                        aria-hidden
                         className="absolute inset-0 -z-10 rounded-xl bg-[var(--navy-tint)]"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
                   </Link>

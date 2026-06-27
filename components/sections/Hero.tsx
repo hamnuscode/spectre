@@ -77,17 +77,18 @@ export function Hero() {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
             className="lg:col-span-6"
           >
-            {/* Robot floats free — transparent container, just enough overflow
-                clip to crop the Spline watermark. revealAfter skips the
-                start-up zoom-out so only the settled pose is shown. */}
+            {/* Robot floats free — transparent container, bled toward the
+                right/top so the robot is large and never cropped on the
+                sides or head. Only the very bottom is clipped to hide the
+                Spline watermark. revealAfter skips the start-up zoom-out. */}
             <motion.div
               style={{ y: yRobot }}
-              className="relative h-[480px] overflow-hidden sm:h-[600px] lg:h-[680px]"
+              className="relative h-[540px] overflow-hidden sm:h-[680px] lg:h-[820px] lg:-mr-16 lg:-mt-10 xl:-mr-32"
             >
               <SplineScene
                 scene={ROBOT_SCENE_URL}
                 revealAfter={1500}
-                className="absolute inset-x-0 top-0 h-[calc(100%+90px)] w-full"
+                className="absolute inset-x-0 top-0 h-[calc(100%+80px)] w-full"
               />
             </motion.div>
           </motion.div>
