@@ -112,7 +112,7 @@ export function ProcessRoadmap() {
           }}
         />
         {/* Greply CPU architecture — animated, upper-right of the section */}
-        <div className="pointer-events-none absolute right-[3%] top-[7%] hidden w-72 lg:block xl:w-96">
+        <div className="pointer-events-none absolute right-[8%] top-[14%] hidden w-72 lg:block xl:w-96">
           <CpuArchitecture className="h-auto w-full" text="SPECTRE" />
         </div>
         <div className="container-x relative z-10">
