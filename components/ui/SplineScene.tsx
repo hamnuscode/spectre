@@ -24,8 +24,14 @@ interface SplineSceneProps {
  * layers (e.g. a hero background) where native pointer events never reach it.
  * Events are dispatched non-bubbling so they don't re-trigger this listener.
  */
+type SplineApp = { stop: () => void; play: () => void };
+
 export function SplineScene({ scene, className, revealAfter = 0 }: SplineSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
+  const appRef = useRef<SplineApp | null>(null);
+  // Whether the scene is on-screen; cursor forwarding + Spline's render loop
+  // are paused when it isn't.
+  const visibleRef = useRef(true);
   const [revealed, setRevealed] = useState(revealAfter === 0);
 
   useEffect(() => {
@@ -38,6 +44,7 @@ export function SplineScene({ scene, className, revealAfter = 0 }: SplineScenePr
 
     const flush = () => {
       frame = 0;
+      if (!visibleRef.current) return; // off-screen: don't drive the canvas
       if (!canvas || !canvas.isConnected) canvas = host.querySelector('canvas');
       if (!canvas) return;
       canvas.dispatchEvent(
@@ -61,9 +68,33 @@ export function SplineScene({ scene, className, revealAfter = 0 }: SplineScenePr
       if (!frame) frame = requestAnimationFrame(flush);
     };
 
+    // Apply the current visibility/tab state to Spline's render loop.
+    const sync = () => {
+      const app = appRef.current;
+      if (!app) return;
+      if (visibleRef.current && !document.hidden) app.play();
+      else app.stop();
+    };
+
+    // Pause the 3D render loop when the scene scrolls out of view.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        visibleRef.current = e.isIntersecting;
+        sync();
+      },
+      { rootMargin: '120px' },
+    );
+    io.observe(host);
+
+    // …and when the tab is backgrounded.
+    const onVisChange = () => sync();
+    document.addEventListener('visibilitychange', onVisChange);
+
     window.addEventListener('pointermove', onMove, { passive: true });
     return () => {
       window.removeEventListener('pointermove', onMove);
+      document.removeEventListener('visibilitychange', onVisChange);
+      io.disconnect();
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);
@@ -87,7 +118,11 @@ export function SplineScene({ scene, className, revealAfter = 0 }: SplineScenePr
             opacity: revealed ? 1 : 0,
             transition: 'opacity 0.7s ease',
           }}
-          onLoad={() => {
+          onLoad={(app) => {
+            appRef.current = app;
+            // If it finished loading while already scrolled away / tab hidden,
+            // don't let its render loop run.
+            if (!visibleRef.current || document.hidden) app.stop();
             if (revealAfter > 0) setTimeout(() => setRevealed(true), revealAfter);
           }}
         />
