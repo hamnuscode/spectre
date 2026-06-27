@@ -5,8 +5,9 @@ import { Logo } from '@/components/ui/Logo';
 
 export function Footer() {
   return (
-    <footer className="relative bg-ink text-white">
-      {/* Wavy top edge — a tiling white wave that gently flows sideways */}
+    <footer className="relative text-white">
+      {/* Wavy top edge — a tiling BLACK wave on a transparent ground, so the
+          page's ambient background shows above it (no white band). */}
       <div aria-hidden className="relative -mb-px">
         <svg
           viewBox="0 0 1440 80"
@@ -14,10 +15,12 @@ export function Footer() {
           className="block h-[5vw] min-h-[40px] w-full"
         >
           {/* Path is 2 tiles wide (0–2880); the visible window is 1 tile
-              (0–1440), so translating by one tile loops seamlessly. */}
+              (0–1440), so translating by one tile loops seamlessly. The shape
+              is closed along the BOTTOM, so the fill is the footer (black)
+              rising into the wave; everything above the wave stays transparent. */}
           <path
-            d="M 0 40 C 240 18 480 62 720 40 C 960 18 1200 62 1440 40 C 1680 18 1920 62 2160 40 C 2400 18 2640 62 2880 40 L 2880 0 L 0 0 Z"
-            fill="var(--bg)"
+            d="M 0 40 C 240 18 480 62 720 40 C 960 18 1200 62 1440 40 C 1680 18 1920 62 2160 40 C 2400 18 2640 62 2880 40 L 2880 80 L 0 80 Z"
+            fill="var(--ink)"
           >
             <animateTransform
               attributeName="transform"
@@ -30,6 +33,7 @@ export function Footer() {
           </path>
         </svg>
       </div>
+      <div className="bg-ink">
       <div className="container-x grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="[&_*]:!text-white">
@@ -74,6 +78,7 @@ export function Footer() {
         <p className="wordmark text-[0.65rem] text-white/60">
           Driving Real Growth
         </p>
+      </div>
       </div>
     </footer>
   );
