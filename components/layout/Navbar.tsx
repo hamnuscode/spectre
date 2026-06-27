@@ -53,8 +53,16 @@ export function Navbar() {
               <Logo />
             </div>
 
-            {/* Desktop nav — centred in-flow (items-center handles vertical). */}
-            <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+            {/* Desktop nav — centred in-flow (items-center handles vertical).
+                Small downward nudge on the collapsed icon row for optical
+                balance against the bar's drop shadow. */}
+            <nav
+              className={cn(
+                'hidden items-center gap-1 lg:flex',
+                scrolled && 'lg:translate-y-[3px]'
+              )}
+              aria-label="Primary"
+            >
               {nav.map((item) => {
                 const active =
                   item.href === '/'
@@ -68,7 +76,7 @@ export function Navbar() {
                     aria-label={item.label}
                     title={scrolled ? item.label : undefined}
                     className={cn(
-                      'group/nav relative grid shrink-0 place-items-center rounded-xl leading-none transition-[color,width,padding] duration-300',
+                      'group/nav relative inline-flex shrink-0 items-center justify-center rounded-xl leading-none transition-[color,width,padding] duration-300',
                       scrolled ? 'h-10 w-10' : 'px-3.5 py-2',
                       active
                         ? 'text-navy'
