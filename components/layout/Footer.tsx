@@ -5,7 +5,7 @@ import { Logo } from '@/components/ui/Logo';
 
 export function Footer() {
   return (
-    <footer className="relative mt-16 bg-ink text-white">
+    <footer className="relative bg-ink text-white">
       {/* Wavy top edge — a tiling white wave that gently flows sideways */}
       <div aria-hidden className="relative -mb-px">
         <svg
