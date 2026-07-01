@@ -8,9 +8,9 @@ export const site = {
   tagline: 'Driving Real Growth',
   description:
     'Spectre Tech Services partners with the fastest-growing global brands to deliver tech support, web development, marketing, accounting, and HR outsourcing — engineered for measurable growth.',
-  email: 'info@spectrets.com',
-  // Real numbers extracted from the export (template placeholders discarded).
-  phones: ['+1 (780) 953-9476', '+1 (917) 997-1124'],
+  email: 'hr@spectrets.com',
+  address: 'Apartment 701, Elysium Tower, Jinnah Avenue, Islamabad, Pakistan',
+  phones: ['+92-51-8776516'],
   responsePromise: 'We reply within 1 business day.',
   socials: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
@@ -164,7 +164,7 @@ export const faqs = [
   },
   {
     q: 'How quickly will you respond to an enquiry?',
-    a: 'We reply within 1 business day. Drop us a line through any form on the site or email info@spectrets.com.',
+    a: 'We reply within 1 business day. Drop us a line through any form on the site or email hr@spectrets.com.',
     category: 'General',
   },
   {

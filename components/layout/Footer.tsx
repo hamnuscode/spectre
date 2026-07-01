@@ -68,6 +68,7 @@ export function Footer() {
               {p}
             </FooterLink>
           ))}
+          <li className="text-sm leading-relaxed text-white/80">{site.address}</li>
         </FooterCol>
       </div>
 

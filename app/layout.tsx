@@ -76,6 +76,12 @@ export default function RootLayout({
     url: site.url,
     email: site.email,
     telephone: site.phones[0],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Apartment 701, Elysium Tower, Jinnah Avenue',
+      addressLocality: 'Islamabad',
+      addressCountry: 'Pakistan',
+    },
     sameAs: site.socials.map((s) => s.href),
     areaServed: 'Global',
     serviceType: [

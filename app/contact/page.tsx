@@ -35,8 +35,8 @@ export default async function ContactPage({
 
   const details = [
     { icon: phoneIcon, label: 'Phone', value: site.phones[0], href: `tel:${site.phones[0].replace(/[^+\d]/g, '')}` },
-    { icon: phoneIcon, label: 'Alt. phone', value: site.phones[1], href: `tel:${site.phones[1].replace(/[^+\d]/g, '')}` },
     { icon: mailIcon, label: 'Email', value: site.email, href: `mailto:${site.email}` },
+    { icon: pinIcon, label: 'Address', value: site.address },
     { icon: pinIcon, label: 'Coverage', value: 'Global · Remote-first' },
     { icon: clockIcon, label: 'Response time', value: 'Within 1 business day' },
   ];
